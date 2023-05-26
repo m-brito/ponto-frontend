@@ -1,0 +1,155 @@
+#containerGrupoHorario {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#containerGrupoHorario #grupoHorarioCabecalho {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+#containerGrupoHorario #grupoHorarioFerramentas {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+}
+
+#containerGrupoHorario #grupoHorarioFerramentas h2 {
+    display: flex;
+    margin-right: 30px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.5s;
+    margin: 0 30px 30px 0;
+}
+
+#containerGrupoHorario #grupoHorarioFerramentas h2:hover {
+    transition: 0.5s;
+    transform: scale(1.1);
+}
+
+#containerGrupoHorario #grupoHorarioConteudo {
+    box-sizing: border-box;
+    padding: 50px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#containerGrupoHorario #grupoHorarioConteudo .grupoHorarioCartao {
+    width: 270px;
+    height: auto;
+    /* min-height: 300px; */
+    background-color: var(--branco);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    box-sizing: border-box;
+    margin: 70px 20px;
+    padding: 20px;
+}
+
+#containerGrupoHorario #grupoHorarioConteudo .grupoHorarioCartao p {
+    margin: 10px 0;
+    width: 100%;
+    text-align: left;
+    flex-wrap: nowrap;
+    word-wrap: break-word;
+    font-size: 15px;
+}
+
+#containerGrupoHorario #grupoHorarioConteudo .grupoHorarioCartao .grupoHorarioNomeCartao {
+    margin: 10px 0;
+    width: 100%;
+    text-align: center;
+    flex-wrap: nowrap;
+    word-wrap: break-word;
+}
+
+#containerGrupoHorario #grupoHorarioConteudo .grupoHorarioCartao .grupoHorarioImagemCartao {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    top: -50px;
+    border-radius: 50%;
+    background-color: var(--cinza-cartao);
+    border: 5px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#containerGrupoHorario #grupoHorarioConteudo .grupoHorarioCartao .grupoHorarioImagemCartao img {
+    height: 100px;
+    width: 100px;
+}
+
+#containerGrupoHorario .grupoHorarioCartao .grupoHorarioConteudoCartao {
+    margin-top: 50px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+}
+
+#containerGrupoHorario .grupoHorarioCartao .grupoHorarioConteudoCartao .grupoHorarioCartaoOpcoes {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#containerGrupoHorario .grupoHorarioCartao .grupoHorarioConteudoCartao .grupoHorarioCartaoOpcoes button,
+#containerGrupoHorario .grupoHorarioCartao .grupoHorarioConteudoCartao .grupoHorarioCartaoOpcoes a {
+    height: 45px;
+    padding: 10px 15px;
+    border: 0;
+    cursor: pointer;
+    transition: 0.5s;
+    overflow: hidden;
+    border-radius: 10px;
+    flex: 1;
+    margin: 0 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#containerGrupoHorario .grupoHorarioCartao .grupoHorarioConteudoCartao .grupoHorarioCartaoOpcoes button img {
+    height: 25px;
+}
+
+#containerGrupoHorario .grupoHorarioCartao .grupoHorarioConteudoCartao .grupoHorarioCartaoOpcoes a.grupoHorarioAbrir {
+    background-color: var(--verde-confirmar);
+    min-width: 70px !important;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    color: var(--branco);
+    font-weight: bold;
+}
+
+#containerGrupoHorario .grupoHorarioCartao .grupoHorarioConteudoCartao .grupoHorarioCartaoOpcoes a.grupoHorarioAbrir:hover {
+    background-color: var(--verde-confirmar-hover);
+    transition: 0.5s;
+}
+
+#containerGrupoHorario .grupoHorarioCartao .grupoHorarioConteudoCartao .grupoHorarioCartaoOpcoes button.grupoHorarioDeletar {
+    background-color: var(--vermelho);
+    max-width: 45px !important;
+}
+
+#containerGrupoHorario .grupoHorarioCartao .grupoHorarioConteudoCartao .grupoHorarioCartaoOpcoes button.grupoHorarioDeletar:hover {
+    background-color: var(--vermelho-hover);
+    transition: 0.5s;
+}
