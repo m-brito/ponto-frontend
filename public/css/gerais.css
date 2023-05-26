@@ -1,0 +1,265 @@
+:root {
+    --primaria: #FFDDBD;
+    --botao-menu: #ffc085;
+    --botao-menu-hover: #ffaa5b;
+    --secundaria: #FF8D24;
+    --confirmar: rgb(81, 216, 81);
+    --cancelar: rgb(228, 94, 94);
+    --confirmar-hover: rgb(114, 241, 114);
+    --cancelar-hover: rgb(247, 133, 133);
+    --branco: rgb(248, 248, 248);
+    --preto: rgb(5, 5, 5);
+    --vermelho: #FF6060;
+    --vermelho-hover: #ff8b8b;
+    --azul: #04AED3;
+    --azul-hover: #1dc6ec;
+    --verde-confirmar: #04D361;
+    --verde-confirmar-hover: #1de276;
+    --cinza-cartao: rgb(225 225 225);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.notificacao {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: var(--branco);
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.295);
+    z-index: 9999;
+    max-width: 300px;
+}
+
+.notificacao p {
+    font-weight: bold;
+    padding: 10px;
+}
+
+/* Components gerais */
+.fecharConfirmar {
+    animation-name: fecharConfirmar !important;
+}
+
+.containerComponent {
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.705);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    overflow-y: auto;
+    box-sizing: border-box;
+
+    opacity: 0;
+    animation-name: abrirConfirmar;
+    animation-duration: 0.2s;
+    animation-fill-mode: forwards;
+  }
+
+.containerComponent #containerArquivo{
+    display: flex;
+    height: 50px;
+}
+
+.containerComponent #nomeArquivo{
+    flex: 1;
+    height: 50px;
+    background-color: var(--cinza);
+    border: 0.5px solid rgba(0, 0, 0, 0.507);
+    border-radius: 5px 0 0 5px;
+    font-size: 15px;
+    padding: 0 15px;
+    overflow: hidden;
+    border-right: none;
+    display: flex;
+    align-items: center;
+    text-align: left;
+}
+
+.containerComponent input[type='file'] {
+    display: none;
+}
+
+.containerComponent label[for=foto], .containerComponent label[for=fotoPerfil] {
+    cursor: pointer;
+    width: 100px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(211, 211, 211);
+    border-radius: 0 5px 5px 0;
+    border: 0.5px solid rgba(0, 0, 0, 0.507);
+    transition: 0.5s;
+}
+
+.containerComponent label[for=foto]:hover, .containerComponent label[for=fotoPerfil]:hover {
+    transition: 0.5s;
+    background-color: rgb(233, 233, 233);
+}
+
+.containerComponent label[for=foto] p, .containerComponent label[for=fotoPerfil] p {
+    font-weight: bold;
+}
+  
+.containerComponent .janelaConfirmar #fotoEditarPerfil {
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+}
+  
+.containerComponent .janelaConfirmar {
+    position: relative;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    min-width: 300px;
+    max-width: 800px;
+    height: fit-content;
+    background-color: var(--branco);
+    padding: 40px 20px 20px 20px;
+    border-radius: 10px;
+
+    opacity: 0;
+    transform: scale(0.75);
+    animation-name: abrirJanelaConfirmar;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-delay: 0.2s;
+}
+  
+.containerComponent .janelaConfirmar .fecharJanelaConfirmar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: 0;
+    background-color: transparent;
+    height: 40px;
+    width: 40px;
+    font-size: 40px;
+    cursor: pointer;
+    border-radius: 0 10px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.5s;
+}
+
+.containerComponent .janelaConfirmar .fecharJanelaConfirmar:hover {
+    transition: 0.5s;
+    transform: scale(1.1);
+}
+  
+.containerComponent .janelaConfirmar p {
+    color: var(--verde-escuro);
+    font-weight: bold;
+    text-align: center;
+}
+  
+.containerComponent .janelaConfirmar input {
+    height: 50px;
+    padding: 5px;
+    margin: 10px;
+}
+  
+.containerComponent .janelaConfirmar .janelaConfirmarAcoes {
+    margin: 15px 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+  
+.containerComponent .janelaConfirmar .janelaConfirmarAcoes button.confirmar,
+.containerComponent .janelaConfirmar .janelaConfirmarAcoes button.cancelar {
+    border: 0;
+    border-radius: 10px;
+    height: 50px;
+    width: 150px;
+    font-weight: bold;
+    font-size: 20px;
+    transition: 0.5s;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+  
+.containerComponent
+.janelaConfirmar
+.janelaConfirmarAcoes
+button.confirmar {
+    background-color: var(--verde-confirmar);
+}
+  
+.containerComponent
+.janelaConfirmar
+.janelaConfirmarAcoes
+button.confirmar:hover {
+    background-color: var(--verde-confirmar-hover);
+    transition: 0.5s;
+}
+  
+.containerComponent .janelaConfirmar .janelaConfirmarAcoes button.cancelar {
+    background-color: var(--vermelho);
+}
+  
+.containerComponent
+.janelaConfirmar
+.janelaConfirmarAcoes
+button.cancelar:hover {
+    background-color: var(--vermelho-hover);
+    transition: 0.5s;
+}
+  
+.containerComponent .janelaConfirmar .janelaConfirmarAcoes button p {
+    color: white !important;
+}
+
+@keyframes abrirConfirmar {
+    from {
+        opacity: 0;
+    } to{
+        opacity: 1;
+    }
+}
+
+@keyframes fecharConfirmar {
+    from {
+        opacity: 1;
+    } to{
+        opacity: 0;
+    }
+}
+
+@keyframes abrirJanelaConfirmar {
+    from {
+        opacity: 0;
+        transform: scale(1);
+    } to{
+        opacity: 1;
+        transform: scale(1.2);
+    }
+}
+
+@keyframes fecharJanelaConfirmar {
+    from {
+        opacity: 1;
+    } to{
+        opacity: 0;
+    }
+}

@@ -1,0 +1,50 @@
+body {
+    width: 100%;
+    min-height: 100vh;
+    background-color: var(--primaria);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+}
+
+body div#acoes {
+    width: 100%;
+    display: flex;
+    box-sizing: border-box;
+    padding: 60px;
+    justify-content: flex-start;
+}
+
+body div#acoes a {
+    margin-right: 20px;
+    padding: 40px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: 0.5s;
+    font-size: 20px;
+}
+
+body div#acoes a:first-child {
+    background-color: var(--confirmar);
+}
+
+body div#acoes a:last-child {
+    background-color: var(--cancelar);
+}
+
+body div#acoes a:first-child:hover {
+    transition: 0.5s;
+    background-color: var(--confirmar-hover);
+}
+
+body div#acoes a:last-child:hover {
+    transition: 0.5s;
+    background-color: var(--cancelar-hover);
+}
