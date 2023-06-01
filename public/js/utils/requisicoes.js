@@ -138,6 +138,24 @@ async function cadastrarHoraRequisicao(hora, nome, grupohorario) {
     return data;
 }
 
+async function editarHoraRequisicao(hora, nome, id) {
+    const resp = await fetch(`${HOST}/api/horario/${id}`, {
+        method: "PATCH",
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${recuperarStorage("userLogado").token}`
+        },
+        body: JSON.stringify({
+            "hora": hora,
+            "nome": nome,
+        })
+    })
+
+    const data = await resp.json();
+    return data;
+}
+
 async function deletarHoraRequisicao(id) {
     const resp = await fetch(`${HOST}/api/horario/${id}`, {
         method: "DELETE",

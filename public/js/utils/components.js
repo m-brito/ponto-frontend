@@ -102,6 +102,7 @@ const componentHoraInput = {
             textoOK: "Confirmar",
             textoCancelar: "Cancelar",
             json: {},
+            valores: {},
             onok: function () { },
             oncancel: function () { }
         }, options);
@@ -122,11 +123,11 @@ const componentHoraInput = {
                 <button class="fecharJanelaConfirmar">&times;</button>
                 <div class="grupo">
                     <label for="iNome">Nome: </label>
-                    <input id="iNome" name="iNome" type="text" placeholder="Informe um nome descritivo">
+                    <input id="iNome" name="iNome" type="text" placeholder="Informe um nome descritivo" value="${options.valores.nome ?? ""}">
                 </div>
                 <div class="grupo">
                     <label for="iHora">Hora: </label>
-                    <input id="iHora" name="iHora" type="time" placeholder="Informe a hora">
+                    <input id="iHora" name="iHora" type="time" placeholder="Informe a hora" value="${options.valores.hora ?? ""}">
                 </div>
                 <div class="janelaConfirmarAcoes">
                     <button class="cancelar"><p>${options.textoCancelar}</p></button>

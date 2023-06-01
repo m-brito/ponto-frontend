@@ -38,7 +38,7 @@ async function iniciarGrupoHorariosId(params) {
                     <td>${grupoHorario["horarios"][x].nome}</td>
                     <td>${grupoHorario["horarios"][x].hora}</td>
                     <td>
-                        <button>Editar</button>    
+                        <button onclick="editarHorario(${grupoHorario["horarios"][x].id}, '${grupoHorario["horarios"][x].nome}', '${grupoHorario["horarios"][x].hora}', ${params["id-grupo-horario"]})">Editar</button>    
                         <button onclick="deletarHorario(${grupoHorario["horarios"][x].id}, ${params["id-grupo-horario"]})">Excluir</button>    
                     </td>
                 </tr>
@@ -65,6 +65,32 @@ async function cadastrarHora(parametros) {
             }
             iniciarGrupoHorariosId(parametros);
         }
+    });
+}
+
+async function editarHorario(id, nome, hora, idGrupoHorario) {
+    componentHoraInput.open({
+        onok: async (hora, nome) => {
+            const resp = await editarHoraRequisicao(hora, nome, id)
+            if (resp.status >= 300) {
+                componentNotificacao.show({
+                    message: "Tivemos problemas ao editar hora",
+                    cor: "red"
+                });
+            } else {
+                componentNotificacao.show({
+                    message: "Hora editada com sucesso!",
+                    cor: "green"
+                });
+            }
+            iniciarGrupoHorariosId({
+                "id-grupo-horario": idGrupoHorario
+            });
+        },
+        valores: {
+            "nome": nome,
+            "hora": hora
+        },
     });
 }
 
