@@ -51,7 +51,7 @@ function loadContent(route) {
             if(routes[matchedRoute].authRequired == false || (routes[matchedRoute].authRequired == true) && routes[matchedRoute].allowedRoles.includes(role)) {
                 authAccept = true;
             }
-            return true; // Interrompe a iteração
+            return true;
         }
     });
 

@@ -142,6 +142,15 @@
     animation-fill-mode: forwards;
     animation-delay: 0.2s;
 }
+
+.containerComponent .janelaConfirmar div.grupo{
+    display: flex;
+    flex-direction: column;
+}
+
+.containerComponent .janelaConfirmar div.grupo input{
+    margin: 0;
+}
   
 .containerComponent .janelaConfirmar .fecharJanelaConfirmar {
     position: absolute;

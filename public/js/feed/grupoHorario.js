@@ -25,7 +25,7 @@ async function iniciarGrupoHorarios() {
                     <p>Fim de expediente: ${grupoHorario[x].horarios[grupoHorario[x].horarios.length-1].hora ?? "-"}</p>
                     <div class="grupoHorarioCartaoOpcoes">
                         <a class="grupoHorarioAbrir" href="#/grupo-horario/${grupoHorario[x].id}">Abrir</a>
-                        <button class="grupoHorarioDeletar">
+                        <button class="grupoHorarioDeletar" onclick="deletarGrupoH(${grupoHorario[x].id})">
                             <img src="../../../../public/assets/icone-deletar.svg"
                                 alt="Icone de uma lixeira - Deletar">
                         </button>
@@ -34,5 +34,21 @@ async function iniciarGrupoHorarios() {
             </div>
         `;
         document.querySelector("div#content div#containerGrupoHorario div#grupoHorarioConteudo").innerHTML += cartaoGrupoHorario;
+    }
+}
+
+async function deletarGrupoH(id) {
+    const resp = await deletarGrupohorario(id);
+    if(resp.status >= 300) {
+        componentNotificacao.show({
+            message: resp.message,
+            cor: "red"
+        });
+    } else {
+        componentNotificacao.show({
+            message: GRUPO_HORARIO_EXCLUIDO_SUCESSO,
+            cor: "green"
+        });
+        iniciarGrupoHorarios();
     }
 }

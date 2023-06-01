@@ -106,3 +106,47 @@ async function grupoHorarioId(id) {
     const data = await resp.json();
     return data;
 }
+
+async function deletarGrupohorario(id) {
+    const resp = await fetch(`${HOST}/api/grupohorario/${id}`, {
+        method: "DELETE",
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${recuperarStorage("userLogado").token}`
+        },
+    })
+    return resp;
+}
+
+// Horario
+async function cadastrarHoraRequisicao(hora, nome, grupohorario) {
+    const resp = await fetch(`${HOST}/api/horario/grupohorario/${grupohorario}`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${recuperarStorage("userLogado").token}`
+        },
+        body: JSON.stringify({
+            "hora": hora,
+            "nome": nome,
+        })
+    })
+
+    const data = await resp.json();
+    return data;
+}
+
+async function deletarHoraRequisicao(id) {
+    const resp = await fetch(`${HOST}/api/horario/${id}`, {
+        method: "DELETE",
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${recuperarStorage("userLogado").token}`
+        }
+    })
+
+    return resp;
+}

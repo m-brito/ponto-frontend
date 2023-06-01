@@ -53,3 +53,11 @@ async function buscarUsuarioLogado() {
         return false;
     }
 }
+
+function organizarHorarios(horarios) {
+    return horarios.sort((a, b) => {
+        const horaA = new Date(`1970-01-01T${a.hora}`);
+        const horaB = new Date(`1970-01-01T${b.hora}`);
+        return horaA - horaB;
+    })
+}
