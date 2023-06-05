@@ -81,6 +81,24 @@ async function editarFotoUsuario(img) {
 }
 
 // GrupoHorario
+async function cadastrarGrupoHoraRequisicao(nome) {
+    const resp = await fetch(`${HOST}/api/grupohorario`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${recuperarStorage("userLogado").token}`
+        },
+        body: JSON.stringify({
+            "nome": nome,
+            "horarios": []
+        })
+    })
+
+    const data = await resp.json();
+    return data;
+}
+
 async function gruposHorarios() {
     const resp = await fetch(`${HOST}/api/grupohorario`, {
         method: "GET",
