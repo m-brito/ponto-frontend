@@ -55,6 +55,10 @@ async function cadastrarGrupoHora() {
                     cor: "green"
                 });
                 window.location = `#/grupo-horario/${resp.id}`;
+                componentNotificacao.show({
+                    message: "Cadastre os horarios para esse grupo!",
+                    cor: "orange"
+                });
             }
             iniciarGrupoHorarios();
         }
