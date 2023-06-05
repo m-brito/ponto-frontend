@@ -15,18 +15,20 @@ async function iniciarGrupoHorariosId(params) {
                     <h2 id="novoGrupoHorario">+ Novo Horario</h2>
                 </div>
                 <div id="grupoHorarioConteudo">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Nome</th>
-                                <th>Hora</th>
-                                <th>Acoes</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            
-                        </tbody>
-                    </table>
+                    ${grupoHorario["horarios"].length > 0 ? `
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Hora</th>
+                                    <th>Acoes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table>
+                    ` : "<h2>Nenhum horario cadastado!</h2> <p>Para que esse grupo apareca para seleção no perfil é necessario de pelo menos 2 horarios cadastrado(entrada e saida)</p>"}
                 </div>
             </div>
         `;
@@ -67,7 +69,6 @@ async function cadastrarHora(parametros) {
         }
     });
 }
-
 async function editarHorario(id, nome, hora, idGrupoHorario) {
     componentHoraInput.open({
         onok: async (hora, nome) => {
