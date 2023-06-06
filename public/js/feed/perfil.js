@@ -2,9 +2,10 @@ async function submitFormEditarPerfil(event) {
     event.preventDefault();
     if (event.submitter.id == "bttConfirmar") {
         let nome = document.querySelector("body main div#content div#containerPerfil form .camposPerfil input#nomeCompletoPerfil").value;
+        let idGrupoHorario = document.querySelector("body main div#content div#containerPerfil form .camposPerfil select#grupoHorario").value;
         const resp = await editarUsuario({
             "nome": nome
-        })
+        }, idGrupoHorario)
         iniciarPerfil();
     }
 }
@@ -13,6 +14,8 @@ function editarPeril() {
     document.querySelector("body main div#content div#containerPerfil form #opcoes #opcoesEditando").style.display = "Flex";
     document.querySelector("body main div#content div#containerPerfil form input").style.cursor = "Text";
     document.querySelector("body main div#content div#containerPerfil form input").disabled = false;
+    document.querySelector("body main div#content div#containerPerfil form select").style.cursor = "auto";
+    document.querySelector("body main div#content div#containerPerfil form select").disabled = false;
     document.querySelector("body main div#content div#containerPerfil form #opcoes #bttEditar").remove();
 }
 
@@ -43,6 +46,8 @@ async function editarFotoPerfil() {
 
 async function iniciarPerfil() {
     await buscarUsuarioLogado();
+    let gruposHorario = await gruposHorarios();
+    let grupoHorariosFiltrado = gruposHorario.filter(grupoHorario => grupoHorario.horarios.length >= 2);
     user = recuperarStorage("userCompleto");
     carregarFeed();
     var contentDiv = document.getElementById('content');
@@ -60,6 +65,12 @@ async function iniciarPerfil() {
                 <div class="camposPerfil">
                     <label for="nome">Nome Completo*</label>
                     <input type="text" name="nome" id="nomeCompletoPerfil" value="${user.nome}" required disabled>
+
+                    <label for="grupoHorario">Grupo Horario*</label>
+                    <select name="grupoHorario" id="grupoHorario" disabled>
+                        ${user.grupoHorario == null ? '<option disabled selected value="">Selecione uma opção</option>' : ''}
+                        ${grupoHorariosFiltrado.map(horario => `<option value="${horario.id}" ${horario.id == user.grupoHorario?.id ? 'selected' : ''}>${horario.nome} (Total de ${horario.horarios.length} horarios)</option>`)}
+                    </select>
                 </div>
                 
                 <div id="opcoes">

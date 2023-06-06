@@ -99,7 +99,8 @@ body main div#content div#containerPerfil form{
     align-items: center;
 }
 
-body main div#content div#containerPerfil form input{
+body main div#content div#containerPerfil form input,
+body main div#content div#containerPerfil form select {
     height: 50px;
     background-color: var(--cinza);
     border: 0.5px solid rgba(0, 0, 0, 0.507);
@@ -107,7 +108,29 @@ body main div#content div#containerPerfil form input{
     font-size: 15px;
     padding: 0 15px;
     cursor: not-allowed;
+    margin: 0 0 10px 0;
 }
+
+option {
+    /* Estilos para os <option> */
+    background-color: #f5f5f5;
+    color: #333;
+    font-size: 14px;
+    padding: 8px 12px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  option:hover {
+    /* Estilos ao passar o mouse sobre os <option> */
+    background-color: #ddd;
+  }
+  
+  option:selected {
+    /* Estilos para o <option> selecionado */
+    background-color: #007bff;
+    color: #fff;
+  }
+
 
 body main div#content div#containerPerfil form #bttEditar{
     height: 50px;

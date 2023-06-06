@@ -28,7 +28,7 @@ async function iniciarGrupoHorariosId(params) {
                                 
                             </tbody>
                         </table>
-                    ` : "<h2>Nenhum horario cadastado!</h2> <p>Para que esse grupo apareca para seleção no perfil é necessario de pelo menos 2 horarios cadastrado(entrada e saida)</p>"}
+                    ` : "<h2 style='width: 100% !important; text-align: center;'>Nenhum horario cadastado!</h2> <p>Para que esse grupo apareca para seleção no perfil é necessario de pelo menos 2 horarios cadastrados(entrada e saida)</p>"}
                 </div>
             </div>
         `;
@@ -96,6 +96,17 @@ async function editarHorario(id, nome, hora, idGrupoHorario) {
 }
 
 async function deletarHorario(id, idGrupoHorario) {
+    user = recuperarStorage("userCompleto");
+    if(user.grupoHorario?.id == idGrupoHorario) {
+        let grupoHorario = await grupoHorarioId(idGrupoHorario);
+        if(grupoHorario.horarios.length == 2) {
+            componentNotificacao.show({
+                message: "Voce não pode ficar com menos de dois horarios cadastrados! \n Este Grupo Horario esta em uso!",
+                cor: "orange"
+            });
+            return;
+        }
+    }
     const resp = await deletarHoraRequisicao(id);
     if (resp.status >= 300) {
         componentNotificacao.show({

@@ -52,7 +52,7 @@ async function perfil() {
     return data;
 }
 
-async function editarUsuario(jsonNovoUsuario) {
+async function editarUsuario(jsonNovoUsuario, idGrupoHorario) {
     const resp = await fetch(`${HOST}/api/usuario`, {
         method: "PATCH",
         headers: {
@@ -60,7 +60,10 @@ async function editarUsuario(jsonNovoUsuario) {
             'Accept': 'application/json',
             'Authorization': `Bearer ${recuperarStorage("userLogado").token}`
         },
-        body: JSON.stringify(jsonNovoUsuario)
+        body: JSON.stringify({
+            "usuario": jsonNovoUsuario,
+            "idGrupoHorario": idGrupoHorario ?? null
+        })
     })
     const data = await resp.json();
     return data;
