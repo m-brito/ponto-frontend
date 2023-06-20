@@ -1,5 +1,18 @@
 let user = recuperarStorage("userCompleto");
+var h;
+var m;
+var s;
+
 window.onload = async () => {
+    var intervalHorario = setInterval(() => {
+        h = new Date().getHours();
+        m = new Date().getMinutes();
+        s = new Date().getSeconds();
+        // Inserir zero
+        h = (h < 10) ? "0" + h : h;
+        m = (m < 10) ? "0" + m : m;
+        s = (s < 10) ? "0" + s : s;
+    });
     await atualizarUsuarioLogado();
     iniciarRotas();
     carregarFeed();
@@ -26,11 +39,6 @@ function userHandler(params) {
     document.title = `Usuario ${params.username}`;
     var contentDiv = document.getElementById('content');
     contentDiv.innerHTML = '<h1>Perfil de ' + params.username + '</h1><p>Esta é a página do usuário ' + params.username + '.</p>';
-}
-
-async function iniciarPonto() {
-    var contentDiv = document.getElementById('content');
-    contentDiv.innerHTML = `<h1>Pagina de ponto</h1>`;
 }
 
 async function iniciarConfiguracoes() {

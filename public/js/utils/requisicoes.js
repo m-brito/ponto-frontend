@@ -189,3 +189,23 @@ async function deletarHoraRequisicao(id) {
 
     return resp;
 }
+
+// PONTO
+async function pontoDiaRequisicao() {
+    var today = new Date();
+    var year = today.getFullYear();
+    var month = String(today.getMonth() + 1).padStart(2, '0');
+    var day = String(today.getDate()).padStart(2, '0');
+
+    var currentDate = year + '-' + month + '-' + day;
+    const resp = await fetch(`${HOST}/api/ponto/${currentDate}`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${recuperarStorage("userLogado").token}`
+        },
+    })
+    const data = await resp.json();
+    return data;
+}

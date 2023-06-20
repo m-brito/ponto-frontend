@@ -239,6 +239,133 @@ button.cancelar:hover {
     color: white !important;
 }
 
+/* TABELAS */
+table {
+    width: 80%;
+    min-width: 450px;
+    background-color: var(--branco);
+    text-align: center;
+    margin-bottom: 100px;
+    /* padding: 10px 0; */
+    border-collapse: collapse;
+}
+
+table {
+    width: 80%;
+    min-width: 450px;
+    background-color: var(--branco);
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 100px;
+}
+
+table thead {
+    border-radius: 10px;
+}
+
+table thead tr th {
+    font-size: 17px;
+    padding: 10px;
+    background-color: var(--branco);
+}
+
+table thead tr th {
+    font-size: 17px;
+    padding: 10px;
+}
+
+table td {
+    padding: 10px 0;
+}
+
+table tr:hover {
+    font-weight: bold;
+}
+
+table tr:nth-of-type(odd) {
+    background-color: #eeeeee;
+}
+
+table tr:last-child {
+    border-radius: 0 0 10px 10px;
+}
+
+table tr td button {
+    border: 0;
+    padding: 3px;
+    color: white;
+    font-size: 13px;
+    border-radius: 5px;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+table tr td button:first-child {
+    background-color: var(--verde-confirmar);
+}
+
+table tr td button:last-child {
+    background-color: var(--cancelar);
+}
+
+table tr td button:first-child:hover {
+    background-color: var(--verde-confirmar-hover);
+}
+
+table tr td button:last-child:hover {
+    background-color: var(--cancelar-hover);
+}
+
+.notFound{
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.notFound h1{
+    font-size: 50px;
+    display: inline-block;
+    padding-right: 12px;
+    animation: type .5s alternate infinite;
+}
+
+#animacaoBatido{
+    position: fixed;
+    animation: animacaoBatida infinite 3s;
+}
+
+.piscando{
+    animation: piscando infinite 0.5s;
+}
+
+@keyframes piscando{
+    0%{
+        background-color: #eeeeee;
+    }
+    33%{
+        background-color: #d6d6d6;
+    }
+    100%{
+        background-color: #eeeeee;
+    }
+}
+
+@keyframes animacaoBatida{
+    0%{
+        transform: scale(1);
+    }
+    33.333%{
+        transform: scale(3);
+    }
+    100%{
+        transform: scale(1);
+    }
+}
+
+@keyframes type{
+    from{box-shadow: inset -3px 0px 0px #888;}
+    to{box-shadow: inset -3px 0px 0px transparent;}
+}
+
 @keyframes abrirConfirmar {
     from {
         opacity: 0;

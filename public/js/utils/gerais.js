@@ -29,6 +29,55 @@ async function mostrarNotificacao(mensagem, cor) {
     }, 5000);
 }
 
+function animateElement(elementId, elementoInicialId, elementoFinalId, duracao, callback) {
+    var element = document.getElementById(elementId);
+    var inicial = document.getElementById(elementoInicialId);
+    var final = document.getElementById(elementoFinalId);
+
+    var rect = inicial.getBoundingClientRect();
+    var inicialX = (rect.left + window.scrollX) + rect.width / 2;
+    var inicialY = (rect.top + window.scrollY) + rect.height / 2;
+    
+    var rect2 = final.getBoundingClientRect();
+    var finalX = (rect2.left + window.scrollX) + rect2.width / 2;
+    var finalY = (rect2.top + window.scrollY) + rect2.height / 2;
+
+    element.style.top = inicialY + 'px';
+    element.style.left = inicialX + 'px';
+    
+    // Ativa a animação
+    element.style.transition = 'transform ' + duracao + 'ms';
+    element.style.transform = 'translate(' + (finalX - inicialX) + 'px, ' + (finalY - inicialY) + 'px)';
+
+    // Executa o callback após a duração especificada
+    setTimeout(function() {
+        if (typeof callback === 'function') {
+            callback();
+        }
+    }, duracao);
+}
+
+function obterHoraAtual() {
+    var data = new Date();
+    var hora = data.getHours();
+    var minutos = data.getMinutes();
+    var segundos = data.getSeconds();
+
+    // Formata os valores para dois dígitos
+    if (hora < 10) {
+        hora = '0' + hora;
+    }
+    if (minutos < 10) {
+        minutos = '0' + minutos;
+    }
+    if (segundos < 10) {
+        segundos = '0' + segundos;
+    }
+
+    var horaFormatada = hora + ':' + minutos + ':' + segundos;
+    return horaFormatada;
+}
+
 // Salvar informacoes em localStorage
 function salvarStorage(nome, dados) {
     localStorage.setItem(nome, JSON.stringify(dados));

@@ -70,13 +70,19 @@ function loadContent(route) {
         var contentDiv = document.getElementById('content');
         contentDiv.innerHTML = '<h1>Voce não tem permissao para acessar esta rota</h1>';
     } else {
-        var contentDiv = document.getElementById('content');
-        contentDiv.innerHTML = '<h1>Página não encontrada</h1>';
+        pagina404();
     }
 }
 
+function pagina404() {
+    var contentDiv = document.getElementById('content');
+    conteudo = `<p>Pagina nao encontrada</p>`;
+    contentDiv.innerHTML = conteudo;
+}
+
 async function handleRouteChange() {
-    // document.getElementById('content').innerHTML = "";
+    document.getElementById('content').innerHTML = "";
+    clearInterval(varSetInterval)
     if(!await buscarUsuarioLogado()) {
         componentNotificacao.show({
             message: "Voce foi desconectado\nDeslogando em 5 segundos!",
