@@ -209,3 +209,28 @@ async function pontoDiaRequisicao() {
     const data = await resp.json();
     return data;
 }
+
+async function cadastrarPontoRequisicao(hora, grupohorario) {
+    var today = new Date();
+    var year = today.getFullYear();
+    var month = String(today.getMonth() + 1).padStart(2, '0');
+    var day = String(today.getDate()).padStart(2, '0');
+
+    var currentDate = year + '-' + month + '-' + day;
+    const resp = await fetch(`${HOST}/api/ponto`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${recuperarStorage("userLogado").token}`
+        },
+        body: JSON.stringify({
+            "hora": hora,
+            "data": currentDate,
+            "grupoHorario": grupohorario
+        })
+    })
+
+    const data = await resp.json();
+    return data;
+}

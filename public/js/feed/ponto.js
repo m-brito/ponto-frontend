@@ -70,11 +70,25 @@ async function iniciarPonto() {
         horarios = await pontoDiaRequisicao();
         document.querySelector(`#horaBatida${horarios.length}`).classList.add("piscando");
         animateElement("elementoAnimacao", "relogio-ditital", `horaBatida${horarios.length}`, 2000)
-        setTimeout(() => {
+        horaBatida = obterHoraAtual();
+        setTimeout(async () => {
             e.target.classList.remove("animacaoClique");
             p.remove();
             document.querySelector(`#horaBatida${horarios.length}`).classList.remove("piscando");
-            document.querySelector(`#horaBatida${horarios.length}`).innerHTML = obterHoraAtual();
+            console.log(template)
+            resp = await cadastrarPontoRequisicao(horaBatida, template.id);
+            if(resp.status >= 300) {
+                componentNotificacao.show({
+                    message: resp.message,
+                    cor: "red"
+                });
+            } else {
+                document.querySelector(`#horaBatida${horarios.length}`).innerHTML = horaBatida;
+                componentNotificacao.show({
+                    message: "Ponto Batido",
+                    cor: "green"
+                });
+            }
         }, 2000)
     })
 }
