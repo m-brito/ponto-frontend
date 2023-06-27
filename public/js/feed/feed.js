@@ -16,11 +16,23 @@ window.onload = async () => {
     await atualizarUsuarioLogado();
     iniciarRotas();
     carregarFeed();
+    carregarAcoesMenu();
 }
 
 async function atualizarUsuarioLogado() {
     await buscarUsuarioLogado();
     user = recuperarStorage("userCompleto");
+}
+
+async function carregarAcoesMenu() {
+    document.getElementById("menuAcoes").innerHTML = `
+        <a href="#/perfil">Perfil</a>
+        <a href="#/">Ponto</a>
+        <a href="#/historico/${user.id}">Historico</a>
+        <a href="#/grupo-horario">Horarios</a>
+        <a href="#/configuracoes">Configurações</a>
+        <a id="sair" href="#/sair">Sair</a>
+    `;
 }
 
 async function carregarFeed() {

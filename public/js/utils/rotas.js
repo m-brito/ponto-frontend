@@ -21,6 +21,11 @@ var routes = {
         authRequired: true,
         allowedRoles: ["USER", "GESTOR"]
     },
+    '/historico/:id-usuario': {
+        handler: iniciarHistorico,
+        authRequired: true,
+        allowedRoles: ["USER", "GESTOR"]
+    },
     '/configuracoes': {
         handler: iniciarConfiguracoes,
         authRequired: true,

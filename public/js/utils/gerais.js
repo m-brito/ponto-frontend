@@ -37,20 +37,20 @@ function animateElement(elementId, elementoInicialId, elementoFinalId, duracao, 
     var rect = inicial.getBoundingClientRect();
     var inicialX = (rect.left + window.scrollX) + rect.width / 2;
     var inicialY = (rect.top + window.scrollY) + rect.height / 2;
-    
+
     var rect2 = final.getBoundingClientRect();
     var finalX = (rect2.left + window.scrollX) + rect2.width / 2;
     var finalY = (rect2.top + window.scrollY) + rect2.height / 2;
 
     element.style.top = inicialY + 'px';
     element.style.left = inicialX + 'px';
-    
+
     // Ativa a animação
     element.style.transition = 'transform ' + duracao + 'ms';
     element.style.transform = 'translate(' + (finalX - inicialX) + 'px, ' + (finalY - inicialY) + 'px)';
 
     // Executa o callback após a duração especificada
-    setTimeout(function() {
+    setTimeout(function () {
         if (typeof callback === 'function') {
             callback();
         }
@@ -76,6 +76,52 @@ function obterHoraAtual() {
 
     var horaFormatada = hora + ':' + minutos + ':' + segundos;
     return horaFormatada;
+}
+
+// Função para obter o último dia específico do mês
+function getLastDayOfMonth(day) {
+    const today = new Date();
+    const currentMonth = today.getMonth();
+    let lastDay;
+
+    if (today.getDate() >= day) {
+        lastDay = new Date(today.getFullYear(), currentMonth, day);
+    } else {
+        if (currentMonth === 0) {
+            lastDay = new Date(today.getFullYear() - 1, 11, day);
+        } else {
+            lastDay = new Date(today.getFullYear(), currentMonth - 1, day);
+        }
+    }
+
+    return lastDay;
+}
+
+function montarData(data) {
+    var ano = data.getFullYear();
+    var mes = String(data.getMonth() + 1).padStart(2, '0');
+    var dia = String(data.getDate()).padStart(2, '0');
+
+    return(currentDate = ano + '-' + mes + '-' + dia);
+}
+
+// Função para obter o próximo dia específico do mês
+function getNextDayOfMonth(day) {
+    const today = new Date();
+    const currentMonth = today.getMonth();
+    let nextDay;
+
+    if (today.getDate() <= day) {
+        nextDay = new Date(today.getFullYear(), currentMonth, day);
+    } else {
+        if (currentMonth === 11) {
+            nextDay = new Date(today.getFullYear() + 1, 0, day);
+        } else {
+            nextDay = new Date(today.getFullYear(), currentMonth + 1, day);
+        }
+    }
+
+    return nextDay;
 }
 
 // Salvar informacoes em localStorage

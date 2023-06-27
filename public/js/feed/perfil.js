@@ -10,12 +10,15 @@ async function submitFormEditarPerfil(event) {
     }
 }
 
-function editarPeril() {
+async function editarPeril() {
     document.querySelector("body main div#content div#containerPerfil form #opcoes #opcoesEditando").style.display = "Flex";
     document.querySelector("body main div#content div#containerPerfil form input").style.cursor = "Text";
     document.querySelector("body main div#content div#containerPerfil form input").disabled = false;
-    document.querySelector("body main div#content div#containerPerfil form select").style.cursor = "auto";
-    document.querySelector("body main div#content div#containerPerfil form select").disabled = false;
+    horarios = await pontoDiaRequisicao(new Date());
+    if(horarios.length == 0) {
+        document.querySelector("body main div#content div#containerPerfil form select").style.cursor = "auto";
+        document.querySelector("body main div#content div#containerPerfil form select").disabled = false;
+    }
     document.querySelector("body main div#content div#containerPerfil form #opcoes #bttEditar").remove();
 }
 
@@ -45,6 +48,7 @@ async function editarFotoPerfil() {
 }
 
 async function iniciarPerfil() {
+    console.log(getLastDayOfMonth(5));
     await buscarUsuarioLogado();
     let gruposHorario = await gruposHorarios();
     let grupoHorariosFiltrado = gruposHorario.filter(grupoHorario => grupoHorario.horarios.length >= 2);
@@ -71,6 +75,11 @@ async function iniciarPerfil() {
                         ${user.grupoHorario == null ? '<option disabled selected value="">Selecione uma opção</option>' : ''}
                         ${grupoHorariosFiltrado.map(horario => `<option value="${horario.id}" ${horario.id == user.grupoHorario?.id ? 'selected' : ''}>${horario.nome} (Total de ${horario.horarios.length} horarios)</option>`)}
                     </select>
+                </div>
+
+                <div>
+                    <h3>Ponto</h3>
+                    <input type="date" id="bday" name="diaa" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}">
                 </div>
                 
                 <div id="opcoes">
