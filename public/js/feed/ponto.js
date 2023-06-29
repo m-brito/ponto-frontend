@@ -3,6 +3,13 @@ var horarios;
 var template;
 
 function calcularHorasTrabalhadas(horarios) {
+    if(horarios == null || horarios.length == 0) {
+        return {
+            horas: 0,
+            minutos: 0,
+            segundos: 0
+        };
+    }
     let totalHorasTrabalhadas = 0;
     const passoLimite = horarios.length % 2 === 0 ? horarios.length : horarios.length - 1;
     for (let i = 0; i < passoLimite; i += 2) {
@@ -39,8 +46,7 @@ function contarHorariosBatidos(horarios) {
 
 function exibirTabelaHorarios(horariosTemplate, horariosBatidos) {
     const horarioTemplatePonto = document.getElementById('horarioTemplatePonto');
-    const templateRows = horariosTemplate
-        .map((t, index) => `
+    const templateRows = horariosTemplate?.map((t, index) => `
       <tr>
         <td>${t.nome}</td>
         <td>${t.hora}</td>
@@ -48,7 +54,7 @@ function exibirTabelaHorarios(horariosTemplate, horariosBatidos) {
       </tr>
     `)
         .join('');
-    horarioTemplatePonto.innerHTML = templateRows;
+    horarioTemplatePonto.innerHTML = templateRows ?? '';
     let horasTrabalhadas = calcularHorasTrabalhadas(horarios);
     horarioTemplatePonto.innerHTML += `
         <tr>
@@ -131,7 +137,10 @@ async function iniciarPonto() {
     const horasTrabalhadas = calcularHorasTrabalhadas(horarios);
 
     var contentDiv = document.getElementById('content');
-    template = await grupoHorarioId(user?.grupoHorario?.id) ?? null;
+    template = null;
+    if(user?.grupoHorario?.id != null) {
+        template = await grupoHorarioId(user?.grupoHorario?.id)
+    }
     contentDiv.innerHTML = `
         <table>
             <thead>

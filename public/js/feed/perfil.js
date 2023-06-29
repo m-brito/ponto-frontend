@@ -2,18 +2,26 @@ async function submitFormEditarPerfil(event) {
     event.preventDefault();
     if (event.submitter.id == "bttConfirmar") {
         let nome = document.querySelector("body main div#content div#containerPerfil form .camposPerfil input#nomeCompletoPerfil").value;
+        let diaFechaPonto = document.querySelector("body main div#content div#containerPerfil form .camposPerfil input#diaFechaPonto").value;
+        let ultimoMesAprovado = document.querySelector("body main div#content div#containerPerfil form .camposPerfil input#ultimoMesAprovado").value;
         let idGrupoHorario = document.querySelector("body main div#content div#containerPerfil form .camposPerfil select#grupoHorario").value;
         const resp = await editarUsuario({
-            "nome": nome
-        }, idGrupoHorario)
+            "nome": nome,
+            "diaFechamentoPonto": diaFechaPonto,
+            "ultimaDataAprovada": ultimoMesAprovado
+        }, idGrupoHorario == "" ? null : idGrupoHorario)
         iniciarPerfil();
     }
 }
 
 async function editarPeril() {
     document.querySelector("body main div#content div#containerPerfil form #opcoes #opcoesEditando").style.display = "Flex";
-    document.querySelector("body main div#content div#containerPerfil form input").style.cursor = "Text";
-    document.querySelector("body main div#content div#containerPerfil form input").disabled = false;
+    document.querySelector("body main div#content div#containerPerfil form input#nomeCompletoPerfil").style.cursor = "Text";
+    document.querySelector("body main div#content div#containerPerfil form input#nomeCompletoPerfil").disabled = false;
+    document.querySelector("body main div#content div#containerPerfil form input#diaFechaPonto").style.cursor = "Text";
+    document.querySelector("body main div#content div#containerPerfil form input#diaFechaPonto").disabled = false;
+    document.querySelector("body main div#content div#containerPerfil form input#ultimoMesAprovado").style.cursor = "Text";
+    document.querySelector("body main div#content div#containerPerfil form input#ultimoMesAprovado").disabled = false;
     horarios = await pontoDiaRequisicao(new Date());
     if(horarios.length == 0) {
         document.querySelector("body main div#content div#containerPerfil form select").style.cursor = "auto";
@@ -48,13 +56,14 @@ async function editarFotoPerfil() {
 }
 
 async function iniciarPerfil() {
-    console.log(getLastDayOfMonth(5));
     await buscarUsuarioLogado();
     let gruposHorario = await gruposHorarios();
     let grupoHorariosFiltrado = gruposHorario.filter(grupoHorario => grupoHorario.horarios.length >= 2);
     user = recuperarStorage("userCompleto");
     carregarFeed();
     var contentDiv = document.getElementById('content');
+    let ultimoDiaFechaPonto = getLastDayOfMonth(user.diaFechamentoPonto);
+    let hoje = new Date();
     let divPerfil = `
         <div id="containerPerfil">
             <form id="formEditarPerfil" action="#">
@@ -67,7 +76,9 @@ async function iniciarPerfil() {
                     </div>
                 </div>
                 <div class="camposPerfil">
-                    <label for="nome">Nome Completo*</label>
+                    <p>Primeiro acesso: ${user?.dataCriacao ? montarDataExibir(user.dataCriacao) : '-'}</p>
+                    <h3>Usuario</h3>
+                    <label for="nomeCompletoPerfil">Nome Completo*</label>
                     <input type="text" name="nome" id="nomeCompletoPerfil" value="${user.nome}" required disabled>
 
                     <label for="grupoHorario">Grupo Horario*</label>
@@ -75,11 +86,15 @@ async function iniciarPerfil() {
                         ${user.grupoHorario == null ? '<option disabled selected value="">Selecione uma opção</option>' : ''}
                         ${grupoHorariosFiltrado.map(horario => `<option value="${horario.id}" ${horario.id == user.grupoHorario?.id ? 'selected' : ''}>${horario.nome} (Total de ${horario.horarios.length} horarios)</option>`)}
                     </select>
-                </div>
 
-                <div>
                     <h3>Ponto</h3>
-                    <input type="date" id="bday" name="diaa" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}">
+    
+                    <label for="diaFechaPonto">Dia fechamento de ponto*</label>
+                    <input type="number" name="diaFechaPonto" min="1" max="28" id="diaFechaPonto" value="${user.diaFechamentoPonto ?? ''}" required disabled>
+                    
+                    <label for="ultimoMesAprovado">Ultima data aprovada*</label>
+                    <input type="date" min="${user?.dataCriacao ? stringToData(user.dataCriacao) - ultimoDiaFechaPonto > 0 ? montarData(stringToData(user.dataCriacao)) : montarData(ultimoDiaFechaPonto) : ''}" max="${montarData(hoje)}" name="ultimoMesAprovado" id="ultimoMesAprovado" value="${user.ultimaDataAprovada ?? ''}" required disabled>
+
                 </div>
                 
                 <div id="opcoes">

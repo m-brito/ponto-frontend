@@ -105,6 +105,24 @@ function montarData(data) {
     return(currentDate = ano + '-' + mes + '-' + dia);
 }
 
+function stringToData(data) {
+    var partesData = data.split("-");
+    var ano = parseInt(partesData[0]);
+    var mes = parseInt(partesData[1]) - 1;
+    var dia = parseInt(partesData[2]);
+
+    return new Date(ano, mes, dia);
+}
+
+function montarDataExibir(data) {
+    var data = stringToData(data);
+    var ano = data.getFullYear();
+    var mes = String(data.getMonth() + 1).padStart(2, '0');
+    var dia = String(data.getDate()).padStart(2, '0');
+
+    return(currentDate = dia + '/' + mes + '/' + ano);
+}
+
 // Função para obter o próximo dia específico do mês
 function getNextDayOfMonth(day) {
     const today = new Date();

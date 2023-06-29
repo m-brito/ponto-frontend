@@ -99,6 +99,15 @@ body main div#content div#containerPerfil form{
     align-items: center;
 }
 
+body main div#content div#containerPerfil form p{
+    text-align: center;
+}
+
+body main div#content div#containerPerfil form h3{
+    text-align: center;
+    margin: 10px 0;
+}
+
 body main div#content div#containerPerfil form input,
 body main div#content div#containerPerfil form select {
     height: 50px;
