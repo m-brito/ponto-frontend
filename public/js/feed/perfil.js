@@ -94,7 +94,7 @@ async function iniciarPerfil() {
                     
                     <label for="ultimoMesAprovado">Ultima data aprovada*</label>
                     
-                    <input type="date" min="${user?.dataCriacao ? stringToData(user.dataCriacao) - ultimoDiaFechaPonto > 0 ? montarData(stringToData(user.dataCriacao)) : montarData(ultimoDiaFechaPonto) : ''}" max="${montarData(hoje)}" name="ultimoMesAprovado" id="ultimoMesAprovado" value="${user.ultimaDataAprovada ?? ''}" required disabled>
+                    <input type="date" min="${stringToData(user?.ultimaDataAprovada) - ultimoDiaFechaPonto <= 0 ? user?.ultimaDataAprovada: user?.dataCriacao ? stringToData(user.dataCriacao) - ultimoDiaFechaPonto > 0 ? montarData(stringToData(user.dataCriacao)) : montarData(ultimoDiaFechaPonto) : ''}" max="${montarData(hoje)}" name="ultimoMesAprovado" id="ultimoMesAprovado" value="${user.ultimaDataAprovada ?? ''}" required disabled>
 
                 </div>
                 
