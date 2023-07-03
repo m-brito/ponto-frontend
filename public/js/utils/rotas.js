@@ -86,7 +86,7 @@ function pagina404() {
 }
 
 async function handleRouteChange() {
-    document.getElementById('content').innerHTML = "";
+    // document.getElementById('content').innerHTML = "";
     clearInterval(varSetInterval)
     if(!await buscarUsuarioLogado()) {
         componentNotificacao.show({

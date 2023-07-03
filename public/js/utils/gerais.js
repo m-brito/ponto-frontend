@@ -102,7 +102,7 @@ function montarData(data) {
     var mes = String(data.getMonth() + 1).padStart(2, '0');
     var dia = String(data.getDate()).padStart(2, '0');
 
-    return(currentDate = ano + '-' + mes + '-' + dia);
+    return (currentDate = ano + '-' + mes + '-' + dia);
 }
 
 function stringToData(data) {
@@ -120,7 +120,48 @@ function montarDataExibir(data) {
     var mes = String(data.getMonth() + 1).padStart(2, '0');
     var dia = String(data.getDate()).padStart(2, '0');
 
-    return(currentDate = dia + '/' + mes + '/' + ano);
+    return (currentDate = dia + '/' + mes + '/' + ano);
+}
+
+function organizarListaPontos(listaPontos, dataInicial, dataFinal) {
+    const result = {
+        'maisPontos': 0,
+        'pontos': {}
+    };
+
+    // Criar um objeto vazio para cada dia dentro do intervalo especificado
+    const currentDate = stringToData(dataInicial);
+    const finalDate = stringToData(dataFinal);
+    while (currentDate <= finalDate) {
+        const formattedDate = currentDate.toISOString().slice(0, 10);
+        result['pontos'][formattedDate] = [];
+        currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    // Preencher a lista de pontos correspondente para cada data existente
+    let qtdDiaIgual = 0;
+    let dataAnterior = listaPontos[0].data;
+    for (const ponto of listaPontos) {
+        if (ponto.data == dataAnterior) {
+            qtdDiaIgual++;
+        } else {
+            if (result['maisPontos'] < qtdDiaIgual) {
+                result['maisPontos'] = qtdDiaIgual;
+            }
+            dataAnterior = ponto.data;
+            qtdDiaIgual = 1;
+        }
+        const data = ponto.data;
+        if (data in result['pontos']) {
+            result['pontos'][data].push(ponto);
+        }
+    }
+    if (result['maisPontos'] < qtdDiaIgual) {
+        result['maisPontos'] = qtdDiaIgual;
+        qtdDiaIgual++;
+    }
+
+    return result;
 }
 
 // Função para obter o próximo dia específico do mês
@@ -136,6 +177,26 @@ function getNextDayOfMonth(day) {
             nextDay = new Date(today.getFullYear() + 1, 0, day);
         } else {
             nextDay = new Date(today.getFullYear(), currentMonth + 1, day);
+        }
+    }
+
+    return nextDay;
+}
+
+function getProximoDiaBaseData(date, dia) {
+    const currentDate = stringToData(date)
+    const currentMonth = currentDate.getMonth();
+    const currentYear = currentDate.getFullYear();
+
+    let nextDay;
+
+    if (currentDate.getDate() < dia) {
+        nextDay = new Date(currentYear, currentMonth, dia);
+    } else {
+        if (currentMonth === 11) {
+            nextDay = new Date(currentYear + 1, 0, dia);
+        } else {
+            nextDay = new Date(currentYear, currentMonth + 1, dia);
         }
     }
 

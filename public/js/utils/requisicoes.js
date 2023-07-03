@@ -204,6 +204,19 @@ async function pontoDiaRequisicao(dataReq) {
     return data;
 }
 
+async function pontoPeriodoRequisicao(idUsuarioConsulta, dataInicial, dataFinal) {
+    const resp = await fetch(`${HOST}/api/ponto/historico/${idUsuarioConsulta}?dataInicial=${montarData(dataInicial)}&dataFinal=${montarData(dataFinal)}`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${recuperarStorage("userLogado").token}`
+        },
+    })
+    const data = await resp.json();
+    return data;
+}
+
 async function cadastrarPontoRequisicao(hora, grupohorario) {
     var today = new Date();
     var year = today.getFullYear();
