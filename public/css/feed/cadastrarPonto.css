@@ -1,0 +1,28 @@
+form#cadastrarPonto{ 
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    min-width: 300px;
+}
+
+form#cadastrarPonto input{ 
+    height: 50px;
+    padding: 0 10px;
+    margin: 0 0 10px 0;
+}
+
+form#cadastrarPonto button{ 
+    background-color: var(--verde-confirmar);
+    transition: 0.5s;
+    color: white;
+    font-weight: bold;
+    border: 0;
+    border-radius: 5px;
+    font-size: 15px;
+    height: 40px;
+    cursor: pointer;
+}
+form#cadastrarPonto button:hover{
+    transition: 0.5s;
+    background-color: var(--verde-confirmar-hover);
+}

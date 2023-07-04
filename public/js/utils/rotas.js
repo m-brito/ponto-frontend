@@ -1,16 +1,36 @@
 var usuarioLogado;
 
 var routes = {
+    // Ponto
     '/': {
         handler: iniciarPonto,
         authRequired: true,
         allowedRoles: ["USER", "GESTOR"]
     },
+    '/ponto/cadastro/:data': {
+        handler: iniciarCadastroPonto,
+        authRequired: true,
+        allowedRoles: ["USER", "GESTOR"]
+    },
+
+    // Usuario
     '/perfil': {
         handler: iniciarPerfil,
         authRequired: true,
         allowedRoles: ["USER", "GESTOR"]
     },
+    '/user/:username': {
+        handler: userHandler,
+        authRequired: true,
+        allowedRoles: ["USER", "GESTOR"]
+    },
+    '/sair': {
+        handler: iniciarSair,
+        authRequired: true,
+        allowedRoles: ["USER", "GESTOR"]
+    },
+
+    // Grupo Horario
     '/grupo-horario': {
         handler: iniciarGrupoHorarios,
         authRequired: true,
@@ -21,23 +41,17 @@ var routes = {
         authRequired: true,
         allowedRoles: ["USER", "GESTOR"]
     },
+
+    // Historico
     '/historico/:id-usuario': {
         handler: iniciarHistorico,
         authRequired: true,
         allowedRoles: ["USER", "GESTOR"]
     },
+
+    // Configuracoes
     '/configuracoes': {
         handler: iniciarConfiguracoes,
-        authRequired: true,
-        allowedRoles: ["USER", "GESTOR"]
-    },
-    '/sair': {
-        handler: iniciarSair,
-        authRequired: true,
-        allowedRoles: ["USER", "GESTOR"]
-    },
-    '/user/:username': {
-        handler: userHandler,
         authRequired: true,
         allowedRoles: ["USER", "GESTOR"]
     },

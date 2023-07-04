@@ -217,8 +217,8 @@ async function pontoPeriodoRequisicao(idUsuarioConsulta, dataInicial, dataFinal)
     return data;
 }
 
-async function cadastrarPontoRequisicao(hora, grupohorario) {
-    var today = new Date();
+async function cadastrarPontoRequisicao(hora, grupohorario, parametroData) {
+    var today = parametroData;
     var year = today.getFullYear();
     var month = String(today.getMonth() + 1).padStart(2, '0');
     var day = String(today.getDate()).padStart(2, '0');

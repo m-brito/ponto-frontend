@@ -2,7 +2,7 @@ var varSetInterval;
 var horarios;
 var template;
 
-function calcularHorasTrabalhadas(horarios) {
+function cadastrarPontoCalcularHorasTrabalhadas(horarios) {
     if(horarios == null || horarios.length == 0) {
         return {
             horas: 0,
@@ -34,7 +34,7 @@ function calcularHorasTrabalhadas(horarios) {
     };
 }
 
-function contarHorariosBatidos(horarios) {
+function cadastrarPontoContarHorariosBatidos(horarios) {
     let contHorariosBatidos = 0;
     for (let i = 0; i < horarios.length; i++) {
         if (horarios[i].hora !== null) {
@@ -44,7 +44,7 @@ function contarHorariosBatidos(horarios) {
     return contHorariosBatidos;
 }
 
-function exibirTabelaHorarios(horariosTemplate, horariosBatidos) {
+function cadastrarPontoExibirTabelaHorarios(horariosTemplate, horariosBatidos) {
     const horarioTemplatePonto = document.getElementById('horarioTemplatePonto');
     const templateRows = horariosTemplate?.map((t, index) => `
       <tr>
@@ -63,61 +63,40 @@ function exibirTabelaHorarios(horariosTemplate, horariosBatidos) {
     `;
 }
 
-function atualizarTotalTrabalhado(horasTrabalhadas) {
+function cadastrarPontoAtualizarTotalTrabalhado(horasTrabalhadas) {
     const totalTrabalhado = document.getElementById('totalTrabalhado');
     totalTrabalhado.innerHTML = `Total trabalhado: ${horasTrabalhadas.horas} horas, ${horasTrabalhadas.minutos} minutos e ${horasTrabalhadas.segundos} segundos`;
 }
 
-function atualizarRelogioDigital(h, m, s) {
-    const horas = document.querySelector('#horas');
-    const minutos = document.querySelector('#minutos');
-    const segundos = document.querySelector('#segundos');
-    const ampm = document.querySelector('#ampm');
-    let am = 'AM';
-
-    // Am ou PM
-    if (h > 12) {
-        // h = h - 12
-        am = 'PM';
-    }
-
-    horas.innerHTML = h + ':';
-    minutos.innerHTML = m + ':';
-    segundos.innerHTML = s + '&nbsp;';
-    ampm.innerHTML = am;
-}
-
-async function marcarPonto(e) {
+async function cadastrarPontoCadastrar(dataString) {
     document.getElementById('bttPonto').disabled = true;
     document.getElementById('bttPonto').style.cursor = 'not-allowed';
-    e.target.classList.add('animacaoClique');
     const p = document.createElement('p');
     p.innerHTML = '🕐';
     p.id = 'elementoAnimacao';
     p.classList.add('pular');
     document.querySelector('body').appendChild(p);
-    horarios = await pontoDiaRequisicao(new Date());
+    horarios = await pontoDiaRequisicao(stringToData(dataString));
     let contHorariosBatidos = contarHorariosBatidos(horarios);
     document.querySelector(`#horaBatida${contHorariosBatidos}`).classList.add('piscando');
-    animateElement('elementoAnimacao', 'relogio-ditital', `horaBatida${contHorariosBatidos}`, 2000);
-    const horaBatida = obterHoraAtual();
+    animateElement('elementoAnimacao', 'iHora', `horaBatida${contHorariosBatidos}`, 2000);
+    const inputHora = document.getElementById('iHora').value;
     setTimeout(async () => {
         document.getElementById('bttPonto').disabled = false;
         document.getElementById('bttPonto').style.cursor = 'pointer';
-        e.target.classList.remove('animacaoClique');
         p.remove();
         document.querySelector(`#horaBatida${contHorariosBatidos}`).classList.remove('piscando');
-        const resp = await cadastrarPontoRequisicao(horaBatida, template.id, new Date());
+        const resp = await cadastrarPontoRequisicao(inputHora, template.id, stringToData(dataString));
         if (resp.status >= 300) {
             componentNotificacao.show({
                 message: resp.message,
                 cor: 'red'
             });
         } else {
-            horarios = await pontoDiaRequisicao(new Date());
-            document.querySelector(`#horaBatida${contHorariosBatidos}`).innerHTML = horaBatida;
+            horarios = await pontoDiaRequisicao(stringToData(dataString));
+            document.querySelector(`#horaBatida${contHorariosBatidos}`).innerHTML = inputHora;
             componentNotificacao.show({
-                message: 'Ponto Batido',
+                message: 'Ponto Cadastrado',
                 cor: 'green'
             });
             const horasTrabalhadas = calcularHorasTrabalhadas(horarios);
@@ -131,8 +110,8 @@ async function marcarPonto(e) {
     }, 2000);
 }
 
-async function iniciarPonto() {
-    horarios = await pontoDiaRequisicao(new Date());
+async function iniciarCadastroPonto(params) {
+    horarios = await pontoDiaRequisicao(stringToData(params["data"]));
     const contHorariosBatidos = contarHorariosBatidos(horarios);
     const horasTrabalhadas = calcularHorasTrabalhadas(horarios);
 
@@ -142,6 +121,7 @@ async function iniciarPonto() {
         template = await grupoHorarioId(user?.grupoHorario?.id)
     }
     contentDiv.innerHTML = `
+        <h2 style="margin: 50px 0">Cadastrar ponto na data ${montarDataExibir(params["data"])}</h2>
         <table>
             <thead>
                 <tr>
@@ -153,21 +133,15 @@ async function iniciarPonto() {
             <tbody id="horarioTemplatePonto">
             </tbody>
         </table>
-        <div id="relogio-ditital">
-            <button id="bttPonto" ${template?.horarios?.length == contHorariosBatidos ? "style='cursor: not-allowed' disabled" : ""}>Marcar</button>
-            <div id="horas"></div>
-            <div id="minutos"></div>
-            <div id="segundos"></div>
-            <div id="ampm"></div>
+        <div>
+            <form id="cadastrarPonto">
+                <label>Ponto: </label>
+                <input id="iHora" type="time" required>
+                <button id="bttPonto">Cadastrar</button>
+            </form>
         </div>
     `;
-
     exibirTabelaHorarios(template?.horarios, horarios);
     atualizarTotalTrabalhado(horasTrabalhadas);
-    atualizarRelogioDigital(h, m, s);
-    varSetInterval = setInterval(() => {
-        atualizarRelogioDigital(h, m, s);
-    }, 1000);
-
-    document.getElementById('bttPonto').addEventListener('click', marcarPonto);
+    document.getElementById('cadastrarPonto').addEventListener("submit", () => cadastrarPontoCadastrar(params["data"]));
 }

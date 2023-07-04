@@ -22,7 +22,7 @@ function exibirTabelaPontos(pontosOrganizados, idUsuario) {
         if(idUsuario == user.id) {
             linha += `
                 <td>
-                    ${pontosOrganizados.pontos[ponto].length > 0 ? `<button style="width: ${90/2}%;" class="bttEditar">Editar</button>` : `<button style="width: ${90}%;" class="bttAdicionar">Adicionar</button>`}
+                    ${pontosOrganizados.pontos[ponto].length > 0 ? `<button style="width: ${90/2}%;" class="bttEditar">Editar</button>` : `<button style="width: ${90}%;" onclick="cadastrarPonto('${ponto}')" class="bttAdicionar">Adicionar</button>`}
                     ${pontosOrganizados.pontos[ponto].length > 0 ? `<button style="width: ${90/2}%;" class="bttExcluir">Excluir</button>` : ''}
                 </td>
             </tr>`;
@@ -60,7 +60,10 @@ function montarTabela(colunas, idUsuarioHistorico) {
         </div>
     `;
     content.innerHTML = tabela;
+}
 
+function cadastrarPonto(data) {
+    window.location.href = `#/ponto/cadastro/${data}`;
 }
 
 async function iniciarHistorico(params) {
