@@ -1,4 +1,4 @@
-function exibirTabelaPontos(pontosOrganizados) {
+function exibirTabelaPontos(pontosOrganizados, idUsuario) {
     const diasDaSemana = ['Domingo', 'Segunda-Feira', 'Terça-Feira', 'Quarta-Feira', 'Quinta-Feira', 'Sexta-Feira', 'Sábado'];
     let colunas = (pontosOrganizados.maisPontos * 2) + 2;
     let tabelaHistorico = document.getElementById("pontosBatidoHistorico");
@@ -19,12 +19,19 @@ function exibirTabelaPontos(pontosOrganizados) {
                 linha += `<td>-</td>`;
             }
         }
-        linha += '</tr>';
+        if(idUsuario == user.id) {
+            linha += `
+                <td>
+                    ${pontosOrganizados.pontos[ponto].length > 0 ? `<button style="width: ${90/2}%;" class="bttEditar">Editar</button>` : `<button style="width: ${90}%;" class="bttAdicionar">Adicionar</button>`}
+                    ${pontosOrganizados.pontos[ponto].length > 0 ? `<button style="width: ${90/2}%;" class="bttExcluir">Excluir</button>` : ''}
+                </td>
+            </tr>`;
+        }
         tabelaHistorico.innerHTML += linha;
     }
 }
 
-function montarTabela(colunas) {
+function montarTabela(colunas, idUsuarioHistorico) {
     let content = document.getElementById('content');
     let colunasNomes = ['Data', 'Dia Semana'];
     for(let x=0; x<colunas; x+=2) {
@@ -34,6 +41,9 @@ function montarTabela(colunas) {
     for(let x=0; x<colunas; x+=2) {
         colunasNomes.push(x == 0 ? 'T Entrada' : 'T Volta');
         colunasNomes.push('T Saida');
+    }
+    if(idUsuarioHistorico == user.id) {
+        colunasNomes.push("Acoes");
     }
     colunasNomes = colunasNomes.map(element => `<th>${element}</th>`)
     let tabela = `
@@ -58,6 +68,6 @@ async function iniciarHistorico(params) {
     let dataFinal = getProximoDiaBaseData(dataInicial, 15).toISOString().slice(0, 10);
     const pontos = await pontoPeriodoRequisicao(params['id-usuario'], stringToData(dataInicial), stringToData(dataFinal));
     const pontosOrganizados = organizarListaPontos(pontos, dataInicial, dataFinal);
-    montarTabela(pontosOrganizados.maisPontos);
-    exibirTabelaPontos(pontosOrganizados);
+    montarTabela(pontosOrganizados.maisPontos, params['id-usuario']);
+    exibirTabelaPontos(pontosOrganizados, params['id-usuario']);
 }

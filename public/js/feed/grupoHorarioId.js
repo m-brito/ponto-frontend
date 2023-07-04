@@ -40,8 +40,8 @@ async function iniciarGrupoHorariosId(params) {
                     <td>${grupoHorario["horarios"][x].nome}</td>
                     <td>${grupoHorario["horarios"][x].hora}</td>
                     <td>
-                        <button onclick="editarHorario(${grupoHorario["horarios"][x].id}, '${grupoHorario["horarios"][x].nome}', '${grupoHorario["horarios"][x].hora}', ${params["id-grupo-horario"]})">Editar</button>    
-                        <button onclick="deletarHorario(${grupoHorario["horarios"][x].id}, ${params["id-grupo-horario"]})">Excluir</button>    
+                        <button class="bttEditar" onclick="editarHorario(${grupoHorario["horarios"][x].id}, '${grupoHorario["horarios"][x].nome}', '${grupoHorario["horarios"][x].hora}', ${params["id-grupo-horario"]})">Editar</button>    
+                        <button class="bttExcluir" onclick="deletarHorario(${grupoHorario["horarios"][x].id}, ${params["id-grupo-horario"]})">Excluir</button>    
                     </td>
                 </tr>
             `;
