@@ -16,6 +16,7 @@
     --verde-confirmar: #04D361;
     --verde-confirmar-hover: #1de276;
     --cinza-cartao: rgb(225 225 225);
+    --cinza-bloqueado: rgb(190, 190, 190);
 }
 
 * {

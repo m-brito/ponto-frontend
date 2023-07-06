@@ -7,8 +7,8 @@ var routes = {
         authRequired: true,
         allowedRoles: ["USER", "GESTOR"]
     },
-    '/ponto/cadastro/:data': {
-        handler: iniciarCadastroPonto,
+    '/ponto/detalhes/:data': {
+        handler: iniciarDetalhesPonto,
         authRequired: true,
         allowedRoles: ["USER", "GESTOR"]
     },

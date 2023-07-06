@@ -2,7 +2,7 @@ var varSetInterval;
 var horarios;
 var template;
 
-function cadastrarPontoCalcularHorasTrabalhadas(horarios) {
+function detalhesPontoCalcularHorasTrabalhadas(horarios) {
     if(horarios == null || horarios.length == 0) {
         return {
             horas: 0,
@@ -34,7 +34,7 @@ function cadastrarPontoCalcularHorasTrabalhadas(horarios) {
     };
 }
 
-function cadastrarPontoContarHorariosBatidos(horarios) {
+function detalhesPontoContarHorariosBatidos(horarios) {
     let contHorariosBatidos = 0;
     for (let i = 0; i < horarios.length; i++) {
         if (horarios[i].hora !== null) {
@@ -44,40 +44,70 @@ function cadastrarPontoContarHorariosBatidos(horarios) {
     return contHorariosBatidos;
 }
 
-function cadastrarPontoExibirTabelaHorarios(horariosTemplate, horariosBatidos) {
+async function editarPontoModal(idPonto, hora, data) {
+    console.log(idPonto);
+    componentHoraEdicaoInput.open({
+        onok: async (horaEdicao) => {
+            const resp = await editarPontoRequisicao(horaEdicao, idPonto);
+            if (resp.status >= 300) {
+                componentNotificacao.show({
+                    message: "Tivemos problemas ao editar ponto",
+                    cor: "red"
+                });
+            } else {
+                componentNotificacao.show({
+                    message: "Ponto editado com sucesso!",
+                    cor: "green"
+                });
+            }
+            iniciarDetalhesPonto({
+                "data": data
+            });
+        },
+        valores: {
+            "hora": hora
+        },
+    });
+}
+
+function detalhesPontoExibirTabelaHorarios(horariosTemplate, horariosBatidos, data) {
     const horarioTemplatePonto = document.getElementById('horarioTemplatePonto');
     const templateRows = horariosTemplate?.map((t, index) => `
       <tr>
         <td>${t.nome}</td>
         <td>${t.hora}</td>
         <td id="horaBatida${index}">${horariosBatidos[index]?.hora ?? '-'}</td>
+        <td>
+            ${horariosBatidos[index]?.hora ? `<button class="bttEditar" onclick="editarPontoModal(${horariosBatidos[index]?.id}, '${horariosBatidos[index]?.hora ?? ''}', '${data}')">Editar</button>` : "-"}
+        </td>
       </tr>
     `)
         .join('');
     horarioTemplatePonto.innerHTML = templateRows ?? '';
-    let horasTrabalhadas = calcularHorasTrabalhadas(horarios);
+    let horasTrabalhadas = detalhesPontoCalcularHorasTrabalhadas(horarios);
     horarioTemplatePonto.innerHTML += `
         <tr>
-            <td cowspan="3" colspan="3" id="totalTrabalhado">Total trabalhado: ${horasTrabalhadas.horas} horas, ${horasTrabalhadas.minutos} minutos e ${horasTrabalhadas.segundos} segundos</td>
+            <td colspan="4" id="totalTrabalhado">Total trabalhado: ${horasTrabalhadas.horas} horas, ${horasTrabalhadas.minutos} minutos e ${horasTrabalhadas.segundos} segundos</td>
         </tr>
     `;
 }
 
-function cadastrarPontoAtualizarTotalTrabalhado(horasTrabalhadas) {
+function detalhesPontoAtualizarTotalTrabalhado(horasTrabalhadas) {
     const totalTrabalhado = document.getElementById('totalTrabalhado');
     totalTrabalhado.innerHTML = `Total trabalhado: ${horasTrabalhadas.horas} horas, ${horasTrabalhadas.minutos} minutos e ${horasTrabalhadas.segundos} segundos`;
 }
 
-async function cadastrarPontoCadastrar(dataString) {
+async function detalhesPontoCadastrar(dataString) {
     document.getElementById('bttPonto').disabled = true;
     document.getElementById('bttPonto').style.cursor = 'not-allowed';
+    document.getElementById('bttPonto').style.backgroundColor = 'var(--cinza-bloqueado)';
     const p = document.createElement('p');
     p.innerHTML = '🕐';
     p.id = 'elementoAnimacao';
     p.classList.add('pular');
     document.querySelector('body').appendChild(p);
     horarios = await pontoDiaRequisicao(stringToData(dataString));
-    let contHorariosBatidos = contarHorariosBatidos(horarios);
+    let contHorariosBatidos = detalhesPontoContarHorariosBatidos(horarios);
     document.querySelector(`#horaBatida${contHorariosBatidos}`).classList.add('piscando');
     animateElement('elementoAnimacao', 'iHora', `horaBatida${contHorariosBatidos}`, 2000);
     const inputHora = document.getElementById('iHora').value;
@@ -99,7 +129,7 @@ async function cadastrarPontoCadastrar(dataString) {
                 message: 'Ponto Cadastrado',
                 cor: 'green'
             });
-            const horasTrabalhadas = calcularHorasTrabalhadas(horarios);
+            const horasTrabalhadas = detalhesPontoCalcularHorasTrabalhadas(horarios);
             atualizarTotalTrabalhado(horasTrabalhadas);
         }
         contHorariosBatidos = contarHorariosBatidos(horarios);
@@ -110,10 +140,10 @@ async function cadastrarPontoCadastrar(dataString) {
     }, 2000);
 }
 
-async function iniciarCadastroPonto(params) {
+async function iniciarDetalhesPonto(params) {
     horarios = await pontoDiaRequisicao(stringToData(params["data"]));
-    const contHorariosBatidos = contarHorariosBatidos(horarios);
-    const horasTrabalhadas = calcularHorasTrabalhadas(horarios);
+    const contHorariosBatidos = detalhesPontoContarHorariosBatidos(horarios);
+    const horasTrabalhadas = detalhesPontoCalcularHorasTrabalhadas(horarios);
 
     var contentDiv = document.getElementById('content');
     template = null;
@@ -128,6 +158,7 @@ async function iniciarCadastroPonto(params) {
                     <th>Nome</th>
                     <th>Hora</th>
                     <th>Hora Marcada</th>
+                    <th>Acoes</th>
                 </tr>
             </thead>
             <tbody id="horarioTemplatePonto">
@@ -137,11 +168,11 @@ async function iniciarCadastroPonto(params) {
             <form id="cadastrarPonto">
                 <label>Ponto: </label>
                 <input id="iHora" type="time" required>
-                <button id="bttPonto">Cadastrar</button>
+                <button id="bttPonto" ${template?.horarios?.length == contHorariosBatidos ? "style='cursor: not-allowed; background-color: var(--cinza-bloqueado);' disabled" : ""}>Cadastrar</button>
             </form>
         </div>
     `;
-    exibirTabelaHorarios(template?.horarios, horarios);
-    atualizarTotalTrabalhado(horasTrabalhadas);
+    detalhesPontoExibirTabelaHorarios(template?.horarios, horarios, params["data"]);
+    detalhesPontoAtualizarTotalTrabalhado(horasTrabalhadas);
     document.getElementById('cadastrarPonto').addEventListener("submit", () => cadastrarPontoCadastrar(params["data"]));
 }

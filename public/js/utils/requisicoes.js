@@ -241,3 +241,20 @@ async function cadastrarPontoRequisicao(hora, grupohorario, parametroData) {
     const data = await resp.json();
     return data;
 }
+
+async function editarPontoRequisicao(hora, id) {
+    const resp = await fetch(`${HOST}/api/ponto/${id}`, {
+        method: "PATCH",
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${recuperarStorage("userLogado").token}`
+        },
+        body: JSON.stringify({
+            "hora": hora
+        })
+    })
+
+    const data = await resp.json();
+    return data;
+}

@@ -183,6 +183,87 @@ const componentHoraInput = {
     }
 };
 
+const componentHoraEdicaoInput = {
+    open(options) {
+        options = Object.assign({}, {
+            textoOK: "Confirmar",
+            textoCancelar: "Cancelar",
+            json: {},
+            valores: {},
+            onok: function () { },
+            oncancel: function () { }
+        }, options);
+
+        const template = this._createTemplate(options);
+        const confirmEl = template.content.querySelector(".containerComponent");
+        const bttOk = template.content.querySelector(".confirmar");
+        const bttFechar = template.content.querySelector(".fecharJanelaConfirmar");
+        const bttCancelar = template.content.querySelector(".cancelar");
+
+        this._setupButtonClickListeners(confirmEl, bttOk, bttCancelar, bttFechar, options);
+        document.body.appendChild(template.content);
+    },
+    _createTemplate(options) {
+        const html = `
+        <div class="containerComponent">
+            <div class="janelaConfirmar">
+                <button class="fecharJanelaConfirmar">&times;</button>
+                <div class="grupo">
+                    <label for="iHora">Hora: </label>
+                    <input id="iHora" name="iHora" type="time" placeholder="Informe a hora" value="${options.valores.hora ?? ""}">
+                </div>
+                <div class="janelaConfirmarAcoes">
+                    <button class="cancelar"><p>${options.textoCancelar}</p></button>
+                    <button class="confirmar"><p>${options.textoOK}</p></button>
+                </div>
+            </div>
+        </div>
+      `;
+
+        const template = document.createElement('template');
+        template.innerHTML = html;
+        return template;
+    },
+    _setupButtonClickListeners(confirmEl, bttOk, bttCancelar, bttFechar, options) {
+        // Considerar clique fora do container como cancelar
+        // confirmEl.addEventListener("click", e => {
+        //     if(e.target === confirmEl) {
+        //         options.oncancel();
+        //         this._close(confirmEl);
+        //     }
+        // });
+
+        bttOk.addEventListener("click", () => {
+            const hora = confirmEl.querySelector("input[id=iHora]").value;
+            if (hora != "" && hora != null && hora != undefined) {
+                const [hours, minutes] = hora.split(":");
+                const horaFormatada = `${hours.padStart(2, "0")}:${minutes.padStart(2, "0")}:00`;
+                options.onok(horaFormatada);
+                this._close(confirmEl);
+            } else {
+                componentNotificacao.show({
+                    message: "Preencha os campos obrigatorios",
+                    cor: "orange"
+                })
+            }
+        });
+
+        [bttCancelar, bttFechar].forEach(el => {
+            el.addEventListener("click", () => {
+                options.oncancel();
+                this._close(confirmEl);
+            })
+        });
+    },
+    _close(confirmEl) {
+        confirmEl.classList.add("fecharConfirmar")
+
+        confirmEl.addEventListener("animationend", () => {
+            document.body.removeChild(confirmEl);
+        })
+    }
+};
+
 const componentTextoInput = {
     open(options) {
         options = Object.assign({}, {
