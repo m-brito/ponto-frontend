@@ -9,9 +9,10 @@ function exibirTabelaPontos(pontosOrganizados, idUsuario) {
                         <td>${diasDaSemana[stringToData(ponto).getDay()]}</td>`;
         if(pontosOrganizados.pontos[ponto].length > 0) {
             let templates = ``; 
+            let pontosOrdenados = organizarHorarios(pontosOrganizados?.pontos[ponto])
             for (let i = 0; i < pontosOrganizados.maisPontos; i++) {
-                linha += `<td>${pontosOrganizados?.pontos[ponto][i]?.hora?.slice(0, 5) ?? '-'}</td>`;
-                templates += `<td>${pontosOrganizados?.pontos[ponto][i]?.horaTemplate?.slice(0, 5) ?? '-'}</td>`;
+                linha += `<td>${pontosOrdenados[i]?.hora?.slice(0, 5) ?? '-'}</td>`;
+                templates += `<td>${pontosOrdenados[i]?.horaTemplate?.slice(0, 5) ?? '-'}</td>`;
             }
             linha += templates;
         } else {  
