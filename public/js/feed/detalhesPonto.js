@@ -174,5 +174,5 @@ async function iniciarDetalhesPonto(params) {
     `;
     detalhesPontoExibirTabelaHorarios(template?.horarios, horarios, params["data"]);
     detalhesPontoAtualizarTotalTrabalhado(horasTrabalhadas);
-    document.getElementById('cadastrarPonto').addEventListener("submit", () => cadastrarPontoCadastrar(params["data"]));
+    document.getElementById('cadastrarPonto').addEventListener("submit", () => detalhesPontoCadastrar(params["data"]));
 }

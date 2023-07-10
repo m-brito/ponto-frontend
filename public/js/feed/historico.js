@@ -24,7 +24,7 @@ function exibirTabelaPontos(pontosOrganizados, idUsuario) {
             linha += `
                 <td>
                     ${pontosOrganizados.pontos[ponto].length > 0 ? `<button style="width: ${90/2}%;" class="bttEditar" onclick="detalhesPonto('${ponto}')">Editar</button>` : `<button style="width: ${90}%;" onclick="detalhesPonto('${ponto}')" class="bttAdicionar">Adicionar</button>`}
-                    ${pontosOrganizados.pontos[ponto].length > 0 ? `<button style="width: ${90/2}%;" class="bttExcluir">Excluir</button>` : ''}
+                    ${pontosOrganizados.pontos[ponto].length > 0 ? `<button style="width: ${90/2}%;" class="bttExcluir" onclick="deletarPontoDia('${ponto}', '${idUsuario}')">Excluir</button>` : ''}
                 </td>
             </tr>`;
         }
@@ -65,6 +65,29 @@ function montarTabela(colunas, idUsuarioHistorico) {
 
 function detalhesPonto(data) {
     window.location.href = `#/ponto/detalhes/${data}`;
+}
+
+function deletarPontoDia(data, idUsuario) {
+    Confirm.open({
+        mensagem: `Tem certeza que deseja exluir os pontos da data ${montarDataExibir(data)}?`,
+        textoOK: "Sim",
+        textoCancelar: "Cancelar",
+        onok: async () => {
+            const resp = await deletarPontoRequisicao(data);
+            if (resp.status >= 300) {
+                componentNotificacao.show({
+                    message: `Tivemos problemas ao excluir os pontos da data ${montarDataExibir(data)}`,
+                    cor: "red"
+                });
+            } else {
+                componentNotificacao.show({
+                    message: `Pontos da data ${montarDataExibir(data)} deletados com sucesso!`,
+                    cor: "green"
+                });
+            }
+            iniciarHistorico({"id-usuario": idUsuario});
+        }
+    })
 }
 
 async function iniciarHistorico(params) {

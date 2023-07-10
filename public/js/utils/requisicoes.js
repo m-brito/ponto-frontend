@@ -258,3 +258,16 @@ async function editarPontoRequisicao(hora, id) {
     const data = await resp.json();
     return data;
 }
+
+async function deletarPontoRequisicao(data) {
+    const resp = await fetch(`${HOST}/api/ponto/${data}`, {
+        method: "DELETE",
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${recuperarStorage("userLogado").token}`
+        }
+    })
+
+    return resp;
+}
