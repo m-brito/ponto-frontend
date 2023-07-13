@@ -140,7 +140,7 @@ function organizarListaPontos(listaPontos, dataInicial, dataFinal) {
 
     // Preencher a lista de pontos correspondente para cada data existente
     let qtdDiaIgual = 0;
-    let dataAnterior = listaPontos[0].data;
+    let dataAnterior = listaPontos?.[0]?.data ?? null;
     for (const ponto of listaPontos) {
         if (ponto.data == dataAnterior) {
             qtdDiaIgual++;
@@ -184,7 +184,7 @@ function getNextDayOfMonth(day) {
 }
 
 function getProximoDiaBaseData(date, dia) {
-    const currentDate = stringToData(date)
+    const currentDate = stringToData(date);
     const currentMonth = currentDate.getMonth();
     const currentYear = currentDate.getFullYear();
 
@@ -230,6 +230,11 @@ async function buscarUsuarioLogado() {
 
 function organizarHorarios(horarios) {
     return horarios.sort((a, b) => {
+        if(b.hora == null) {
+            return -1;
+        } else if(a.hora == null) {
+            return 1;
+        }
         const horaA = new Date(`1970-01-01T${a.hora}`);
         const horaB = new Date(`1970-01-01T${b.hora}`);
         return horaA - horaB;

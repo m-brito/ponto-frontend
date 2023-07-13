@@ -351,6 +351,12 @@ table tr td button.bttEditar:hover {
     animation: piscando infinite 0.5s;
 }
 
+.grupoInput{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
 @keyframes piscando{
     0%{
         background-color: #eeeeee;

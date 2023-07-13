@@ -8,7 +8,7 @@ function exibirTabelaPontos(pontosOrganizados, idUsuario) {
                         <td>${montarDataExibir(ponto)}</td>
                         <td>${diasDaSemana[stringToData(ponto).getDay()]}</td>`;
         if(pontosOrganizados.pontos[ponto].length > 0) {
-            let templates = ``; 
+            let templates = ``;
             let pontosOrdenados = organizarHorarios(pontosOrganizados?.pontos[ponto])
             for (let i = 0; i < pontosOrganizados.maisPontos; i++) {
                 linha += `<td>${pontosOrdenados[i]?.hora?.slice(0, 5) ?? '-'}</td>`;
@@ -32,7 +32,7 @@ function exibirTabelaPontos(pontosOrganizados, idUsuario) {
     }
 }
 
-function montarTabela(colunas, idUsuarioHistorico) {
+function montarContainer(colunas, idUsuarioHistorico) {
     let content = document.getElementById('content');
     let colunasNomes = ['Data', 'Dia Semana'];
     for(let x=0; x<colunas; x+=2) {
@@ -49,18 +49,38 @@ function montarTabela(colunas, idUsuarioHistorico) {
     colunasNomes = colunasNomes.map(element => `<th>${element}</th>`)
     let tabela = `
         <div id="containerHistorico">
-            <table>
-                <thead>
-                    <tr>
-                        ${colunasNomes.join('')}
-                    </tr>
-                </thead>
-                <tbody id="pontosBatidoHistorico">
-                </tbody>
-            </table>
+            <div id="filtro">
+                <div class="grupoInput">
+                    <label for="iDataInicial">Data Inicial: </label>
+                    <input type="date" name="iDataInicial" id="iDataInicial">
+                </div>
+                <p id="pDataFinal">Até dd/mm/aaaa</p>
+            </div>
+            <div id="containerTabela">
+                <table>
+                    <thead>
+                        <tr>
+                            ${colunasNomes.join('')}
+                        </tr>
+                    </thead>
+                    <tbody id="pontosBatidoHistorico">
+                    </tbody>
+                </table>
+            </div>
         </div>
     `;
     content.innerHTML = tabela;
+
+    document.querySelector("#iDataInicial").addEventListener("change", async (event) => {
+        const dataInicial = event.target.value;
+        const dataFinal = getProximoDiaBaseData(dataInicial, user.diaFechamentoPonto);
+        const pontos = await pontoPeriodoRequisicao(idUsuarioHistorico, stringToData(dataInicial), dataFinal);
+        const pontosOrganizados = organizarListaPontos(pontos, dataInicial, dataFinal.toISOString().slice(0, 10));
+        montarContainer(pontosOrganizados.maisPontos, idUsuarioHistorico);
+        exibirTabelaPontos(pontosOrganizados, idUsuarioHistorico);
+        document.querySelector("div#containerHistorico div#filtro div.grupoInput input#iDataInicial").value = dataInicial;
+        document.querySelector("div#containerHistorico div#filtro p#pDataFinal").innerHTML = `Até ${montarDataExibir(dataFinal.toISOString().slice(0, 10))}`;
+    });
 }
 
 function detalhesPonto(data) {
@@ -91,10 +111,12 @@ function deletarPontoDia(data, idUsuario) {
 }
 
 async function iniciarHistorico(params) {
-    let dataInicial = '2023-06-16';
-    let dataFinal = getProximoDiaBaseData(dataInicial, 15).toISOString().slice(0, 10);
+    let dataInicial = getLastDayOfMonth(user.diaFechamentoPonto+1).toISOString().slice(0, 10);
+    let dataFinal = getProximoDiaBaseData(dataInicial, user.diaFechamentoPonto).toISOString().slice(0, 10);
     const pontos = await pontoPeriodoRequisicao(params['id-usuario'], stringToData(dataInicial), stringToData(dataFinal));
     const pontosOrganizados = organizarListaPontos(pontos, dataInicial, dataFinal);
-    montarTabela(pontosOrganizados.maisPontos, params['id-usuario']);
+    montarContainer(pontosOrganizados.maisPontos, params['id-usuario']);
     exibirTabelaPontos(pontosOrganizados, params['id-usuario']);
+    document.querySelector("div#containerHistorico div#filtro div.grupoInput input#iDataInicial").value = dataInicial;
+    document.querySelector("div#containerHistorico div#filtro p#pDataFinal").innerHTML = `Até ${montarDataExibir(dataFinal)}`;
 }
