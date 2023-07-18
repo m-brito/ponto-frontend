@@ -20,7 +20,8 @@
     margin: 0;
 }
 
-#containerHistorico table th, #containerHistorico table td {
+#containerHistorico table th,
+#containerHistorico table td {
     min-width: 90px;
 }
 
@@ -37,11 +38,30 @@
     align-items: center;
 }
 
-#containerHistorico #filtro p#pDataFinal{
+#containerHistorico #filtro p#pDataFinal {
     font-weight: bold;
     font-size: 17px;
 }
 
-.grupoInput{
+.grupoInput {
     min-width: 250px;
+}
+
+@media screen and (max-width: 650px) {
+    #containerHistorico #filtro {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #containerHistorico #filtro input {
+        margin: 10px 0;
+    }
+
+    #containerHistorico input {
+        max-width: 150px;
+    }
+
+    .grupoInput {
+        min-width: auto;
+    }
 }
