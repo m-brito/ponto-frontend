@@ -150,6 +150,9 @@ async function iniciarDetalhesPonto(params) {
     if(user?.grupoHorario?.id != null) {
         template = await grupoHorarioId(user?.grupoHorario?.id)
     }
+    await buscarUsuarioLogado();
+    let gruposHorario = await gruposHorarios();
+    let grupoHorariosFiltrado = gruposHorario.filter(grupoHorario => grupoHorario.horarios.length >= 2);
     contentDiv.innerHTML = `
         <h2 style="margin: 50px 0">Cadastrar ponto na data ${montarDataExibir(params["data"])}</h2>
         <table>
@@ -166,6 +169,11 @@ async function iniciarDetalhesPonto(params) {
         </table>
         <div>
             <form id="cadastrarPonto">
+                <label for="grupoHorario">Grupo Horario*</label>
+                <select name="grupoHorario" id="grupoHorario">
+                    ${user.grupoHorario == null ? '<option disabled selected value="">Selecione uma opção</option>' : ''}
+                    ${grupoHorariosFiltrado.map(horario => `<option value="${horario.id}" ${horario.id == user.grupoHorario?.id ? 'selected' : ''}>${horario.nome} (Total de ${horario.horarios.length} horarios)</option>`)}
+                </select>
                 <label>Ponto: </label>
                 <input id="iHora" type="time" required>
                 <button id="bttPonto" ${template?.horarios?.length == contHorariosBatidos ? "style='cursor: not-allowed; background-color: var(--cinza-bloqueado);' disabled" : ""}>Cadastrar</button>

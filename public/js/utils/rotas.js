@@ -5,56 +5,94 @@ var routes = {
     '/': {
         handler: iniciarPonto,
         authRequired: true,
-        allowedRoles: ["USER", "GESTOR"]
+        allowedRoles: ["USER", "GESTOR", "RH", "ADM"]
     },
     '/ponto/detalhes/:data': {
         handler: iniciarDetalhesPonto,
         authRequired: true,
-        allowedRoles: ["USER", "GESTOR"]
+        allowedRoles: ["USER", "GESTOR", "RH", "ADM"]
     },
 
     // Usuario
     '/perfil': {
         handler: iniciarPerfil,
         authRequired: true,
-        allowedRoles: ["USER", "GESTOR"]
+        allowedRoles: ["USER", "GESTOR", "RH", "ADM"]
     },
     '/user/:username': {
         handler: userHandler,
         authRequired: true,
-        allowedRoles: ["USER", "GESTOR"]
+        allowedRoles: ["USER", "GESTOR", "RH", "ADM"]
     },
     '/sair': {
         handler: iniciarSair,
         authRequired: true,
-        allowedRoles: ["USER", "GESTOR"]
+        allowedRoles: ["USER", "GESTOR", "RH", "ADM"]
     },
 
     // Grupo Horario
     '/grupo-horario': {
         handler: iniciarGrupoHorarios,
         authRequired: true,
-        allowedRoles: ["USER", "GESTOR"]
+        allowedRoles: ["USER", "GESTOR", "RH", "ADM"]
     },
     '/grupo-horario/:id-grupo-horario': {
         handler: iniciarGrupoHorariosId,
         authRequired: true,
-        allowedRoles: ["USER", "GESTOR"]
+        allowedRoles: ["USER", "GESTOR", "RH", "ADM"]
     },
 
     // Historico
     '/historico/:id-usuario': {
         handler: iniciarHistorico,
         authRequired: true,
-        allowedRoles: ["USER", "GESTOR"]
+        allowedRoles: ["USER", "GESTOR", "RH", "ADM"]
     },
 
     // Configuracoes
     '/configuracoes': {
         handler: iniciarConfiguracoes,
         authRequired: true,
-        allowedRoles: ["USER", "GESTOR"]
+        allowedRoles: ["USER", "GESTOR", "RH", "ADM"]
     },
+
+    // Contratados
+    '/contratados': {
+        handler: iniciarContratados,
+        authRequired: true,
+        allowedRoles: ["GESTOR", "RH", "ADM"]
+    },
+};
+
+var menuOptions = {
+    'Perfil': {
+        url: '#/perfil',
+        allowedRoles: ["USER", "GESTOR", "RH", "ADM"]
+    },
+    'Ponto': {
+        url: '#/',
+        allowedRoles: ["USER", "GESTOR", "RH", "ADM"]
+    },
+    'Historico': {
+        url: `#/historico/${user.id}`,
+        allowedRoles: ["USER", "GESTOR", "RH", "ADM"]
+    },
+    'Horarios': {
+        url: '#/grupo-horario',
+        allowedRoles: ["USER", "GESTOR", "RH", "ADM"]
+    },
+    'Configurações': {
+        url: '#/configuracoes',
+        allowedRoles: ["USER", "GESTOR", "RH", "ADM"]
+    },
+    'Contratados': {
+        url: '#/contratados',
+        allowedRoles: ["GESTOR", "RH", "ADM"]
+    },
+    'Sair': {
+        url: '#/sair',
+        allowedRoles: ["USER", "GESTOR", "RH", "ADM"]
+    }
 };
 
 function loadContent(route) {

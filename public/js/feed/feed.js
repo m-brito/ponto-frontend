@@ -25,13 +25,11 @@ async function atualizarUsuarioLogado() {
 }
 
 async function carregarAcoesMenu() {
+    menus = Object.keys(menuOptions).map((opt) => {
+        return menuOptions[opt].allowedRoles.includes(user.tipo) ? `<a href="${menuOptions[opt].url}">${opt}</a>` : null;
+    });
     document.getElementById("menuAcoes").innerHTML = `
-        <a href="#/perfil">Perfil</a>
-        <a href="#/">Ponto</a>
-        <a href="#/historico/${user.id}">Historico</a>
-        <a href="#/grupo-horario">Horarios</a>
-        <a href="#/configuracoes">Configurações</a>
-        <a id="sair" href="#/sair">Sair</a>
+        ${menus.join('')}
     `;
 }
 
