@@ -26,7 +26,7 @@ async function atualizarUsuarioLogado() {
 
 async function carregarAcoesMenu() {
     menus = Object.keys(menuOptions).map((opt) => {
-        return menuOptions[opt].allowedRoles.includes(user.tipo) ? `<a href="${menuOptions[opt].url}">${opt}</a>` : null;
+        return menuOptions[opt].allowedRoles.includes(user.tipo) ? `<a ${opt == "Sair" ? 'id="sair"' : ''} href="${menuOptions[opt].url}">${opt}</a>` : null;
     });
     document.getElementById("menuAcoes").innerHTML = `
         ${menus.join('')}

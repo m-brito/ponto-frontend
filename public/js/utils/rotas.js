@@ -95,6 +95,39 @@ var menuOptions = {
     }
 };
 
+function atualizarAcessos() {
+    menuOptions = {
+        'Perfil': {
+            url: '#/perfil',
+            allowedRoles: ["USER", "GESTOR", "RH", "ADM"]
+        },
+        'Ponto': {
+            url: '#/',
+            allowedRoles: ["USER", "GESTOR", "RH", "ADM"]
+        },
+        'Historico': {
+            url: `#/historico/${user.id}`,
+            allowedRoles: ["USER", "GESTOR", "RH", "ADM"]
+        },
+        'Horarios': {
+            url: '#/grupo-horario',
+            allowedRoles: ["USER", "GESTOR", "RH", "ADM"]
+        },
+        'Configurações': {
+            url: '#/configuracoes',
+            allowedRoles: ["USER", "GESTOR", "RH", "ADM"]
+        },
+        'Contratados': {
+            url: '#/contratados',
+            allowedRoles: ["GESTOR", "RH", "ADM"]
+        },
+        'Sair': {
+            url: '#/sair',
+            allowedRoles: ["USER", "GESTOR", "RH", "ADM"]
+        }
+    };
+}
+
 function loadContent(route) {
     var matchedRoute = null;
     var authAccept = false;
@@ -139,6 +172,8 @@ function pagina404() {
 
 async function handleRouteChange() {
     // document.getElementById('content').innerHTML = "";
+    user = recuperarStorage("userCompleto");
+    atualizarAcessos();
     clearInterval(varSetInterval)
     if(!await buscarUsuarioLogado()) {
         componentNotificacao.show({

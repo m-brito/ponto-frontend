@@ -52,6 +52,20 @@ async function perfil() {
     return data;
 }
 
+//Perfil de Usuario ID
+async function perfilUsuario(id) {
+    const resp = await fetch(`${HOST}/api/usuario/${id}`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${recuperarStorage("userLogado").token}`
+        },
+    })
+    const data = await resp.json();
+    return data;
+}
+
 async function editarUsuario(jsonNovoUsuario, idGrupoHorario) {
     const resp = await fetch(`${HOST}/api/usuario`, {
         method: "PATCH",

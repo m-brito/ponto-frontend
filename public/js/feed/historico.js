@@ -72,8 +72,9 @@ function montarContainer(colunas, idUsuarioHistorico) {
     content.innerHTML = tabela;
 
     document.querySelector("#iDataInicial").addEventListener("change", async (event) => {
+        let usuario = await perfilUsuario(idUsuarioHistorico);
         const dataInicial = event.target.value;
-        const dataFinal = getProximoDiaBaseData(dataInicial, user.diaFechamentoPonto);
+        const dataFinal = getProximoDiaBaseData(dataInicial, usuario.diaFechamentoPonto);
         const pontos = await pontoPeriodoRequisicao(idUsuarioHistorico, stringToData(dataInicial), dataFinal);
         const pontosOrganizados = organizarListaPontos(pontos, dataInicial, dataFinal.toISOString().slice(0, 10));
         montarContainer(pontosOrganizados.maisPontos, idUsuarioHistorico);
@@ -111,8 +112,18 @@ function deletarPontoDia(data, idUsuario) {
 }
 
 async function iniciarHistorico(params) {
-    let dataInicial = getLastDayOfMonth(user.diaFechamentoPonto+1).toISOString().slice(0, 10);
-    let dataFinal = getProximoDiaBaseData(dataInicial, user.diaFechamentoPonto).toISOString().slice(0, 10);
+    let usuario = await perfilUsuario(params['id-usuario']);
+    let dataInicial;
+    let dataFinal;
+    console.log(usuario)
+    if(usuario.id == user.id) {
+        dataInicial = getLastDayOfMonth(usuario.diaFechamentoPonto+1).toISOString().slice(0, 10);
+        dataFinal = getProximoDiaBaseData(dataInicial, usuario.diaFechamentoPonto).toISOString().slice(0, 10);
+    } else {
+        dataInicial = getUltimoDiaBaseData(usuario.ultimaDataAprovada, usuario.diaFechamentoPonto).toISOString().slice(0, 10);
+        console.log(dataInicial)
+        dataFinal = getProximoDiaBaseData(dataInicial, usuario.diaFechamentoPonto).toISOString().slice(0, 10);
+    }
     const pontos = await pontoPeriodoRequisicao(params['id-usuario'], stringToData(dataInicial), stringToData(dataFinal));
     const pontosOrganizados = organizarListaPontos(pontos, dataInicial, dataFinal);
     montarContainer(pontosOrganizados.maisPontos, params['id-usuario']);

@@ -203,6 +203,26 @@ function getProximoDiaBaseData(date, dia) {
     return nextDay;
 }
 
+function getUltimoDiaBaseData(date, dia) {
+    const currentDate = stringToData(date);
+    const currentMonth = currentDate.getMonth();
+    const currentYear = currentDate.getFullYear();
+
+    let lastDay;
+
+    if (currentDate.getDate() > dia) {
+        lastDay = new Date(currentYear, currentMonth, dia);
+    } else {
+        if (currentMonth === 0) {
+            lastDay = new Date(currentYear - 1, 11, dia);
+        } else {
+            lastDay = new Date(currentYear, currentMonth - 1, dia);
+        }
+    }
+
+    return lastDay;
+}
+
 // Salvar informacoes em localStorage
 function salvarStorage(nome, dados) {
     localStorage.setItem(nome, JSON.stringify(dados));

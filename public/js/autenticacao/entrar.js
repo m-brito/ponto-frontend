@@ -15,6 +15,7 @@ window.onload = () => {
                     });
                 } else {
                     salvarStorage("userLogado", resp);
+                    buscarUsuarioLogado();
                     componentNotificacao.show({
                         message: LOGADO_SUCESSO+"\nEntrando em 5 segundos",
                         cor: "green"
