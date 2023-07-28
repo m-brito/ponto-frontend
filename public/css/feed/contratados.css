@@ -1,0 +1,182 @@
+#containerContratados{
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#containerContratados #formPesquisa{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+#containerContratados #formPesquisa #containerInput{
+    display: flex;
+    padding: 0;
+}
+
+#containerContratados #formPesquisa #containerInput{
+    display: flex;
+    padding: 0;
+}
+
+#containerContratados #formPesquisa #containerInput input{
+    height: 40px;
+    padding: 0 10px;
+    border-radius: 5px 0 0 5px;
+    border: 0.5px solid black;
+    border-right: 0;
+    box-sizing: border-box;
+    flex: 1;
+}
+
+#containerContratados #formPesquisa #containerInput button{
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    border-radius: 0 5px 5px 0;
+    padding: 0 5px;
+    border-left: 0;
+    border: 0.5px solid black;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+    background-color: var(--cinza-pesquisar);
+    transition: 0.5s;
+}
+
+#containerContratados #formPesquisa #containerInput button:hover{
+    background-color: var(--cinza-pesquisar-hover);
+    transition: 0.5s;
+}
+
+#containerContratados #resultados {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#containerContratados #resultados .contratadoCartao {
+    width: 270px;
+    height: auto;
+    /* min-height: 300px; */
+    background-color: var(--branco);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    box-sizing: border-box;
+    margin: 70px 20px;
+    padding: 20px;
+}
+
+#containerContratados #resultados .contratadoCartao p {
+    margin: 10px 0;
+    width: 100%;
+    text-align: left;
+    flex-wrap: nowrap;
+    word-wrap: break-word;
+    font-size: 15px;
+}
+
+#containerContratados #resultados .contratadoCartao .contratadoNomeCartao {
+    margin: 10px 0;
+    width: 100%;
+    text-align: center;
+    flex-wrap: nowrap;
+    word-wrap: break-word;
+}
+
+#containerContratados #resultados .contratadoCartao .contratadoImagemCartao {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    top: -50px;
+    border-radius: 50%;
+    background-color: var(--cinza-cartao);
+    border: 5px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#containerContratados #resultados .contratadoCartao .contratadoImagemCartao img {
+    height: 100px;
+    width: 100px;
+}
+
+#containerContratados #resultados .contratadoCartao .contratadoConteudoCartao {
+    margin-top: 50px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+}
+
+#containerContratados #resultados .contratadoCartao .contratadoConteudoCartao .contratadoCartaoOpcoes {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#containerContratados #resultados .contratadoCartao .contratadoConteudoCartao .contratadoCartaoOpcoes button,
+#containerContratados #resultados .contratadoCartao .contratadoConteudoCartao .contratadoCartaoOpcoes a {
+    height: 45px;
+    padding: 10px 15px;
+    border: 0;
+    cursor: pointer;
+    transition: 0.5s;
+    overflow: hidden;
+    border-radius: 10px;
+    flex: 1;
+    margin: 0 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#containerContratados #resultados .contratadoCartao .contratadoConteudoCartao .contratadoCartaoOpcoes button img {
+    height: 25px;
+}
+
+#containerContratados #resultados .contratadoCartao .contratadoConteudoCartao .contratadoCartaoOpcoes a.contratadoAbrir {
+    background-color: var(--verde-confirmar);
+    min-width: 70px !important;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    color: var(--branco);
+    font-weight: bold;
+}
+
+#containerContratados #resultados .contratadoCartao .contratadoConteudoCartao .contratadoCartaoOpcoes a.contratadoAbrir:hover {
+    background-color: var(--verde-confirmar-hover);
+    transition: 0.5s;
+}
+
+#containerContratados #resultados .contratadoCartao .contratadoConteudoCartao .contratadoCartaoOpcoes a.contratadoPerfil {
+    background-color: var(--verde-confirmar);
+    min-width: 70px !important;
+    margin: 0 0 0 10px;
+    padding: 0;
+    text-decoration: none;
+    color: var(--branco);
+    font-weight: bold;
+}
+
+#containerContratados #resultados .contratadoCartao .contratadoConteudoCartao .contratadoCartaoOpcoes a.contratadoPerfil:hover {
+    background-color: var(--verde-confirmar-hover);
+    transition: 0.5s;
+}

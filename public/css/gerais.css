@@ -15,6 +15,8 @@
     --azul-hover: #1dc6ec;
     --verde-confirmar: #04D361;
     --verde-confirmar-hover: #1de276;
+    --cinza-pesquisar: rgb(167, 167, 167);
+    --cinza-pesquisar-hover: rgb(204, 204, 204);
     --cinza-cartao: rgb(225 225 225);
     --cinza-bloqueado: rgb(190, 190, 190);
 }
