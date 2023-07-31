@@ -65,6 +65,19 @@ async function perfis() {
     return data;
 }
 
+async function perfisPesquisa(pesquisa) {
+    const resp = await fetch(`${HOST}/api/usuario/perfis/${pesquisa}`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${recuperarStorage("userLogado").token}`
+        },
+    })
+    const data = await resp.json();
+    return data;
+}
+
 //Perfil de Usuario ID
 async function perfilUsuario(id) {
     const resp = await fetch(`${HOST}/api/usuario/${id}`, {

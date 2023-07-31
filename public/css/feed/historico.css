@@ -43,6 +43,23 @@
     font-size: 17px;
 }
 
+#containerHistorico #filtro button#bttExportar {
+    margin: 0 0 0 20px;
+    background-color: var(--verde-confirmar);
+    color: white;
+    font-weight: bold;
+    border: 0px;
+    border-radius: 10px;
+    padding: 5px;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+#containerHistorico #filtro button#bttExportar:hover {
+    transition: 0.5s;
+    background-color: var(--verde-confirmar-hover);
+}
+
 .grupoInput {
     min-width: 250px;
 }

@@ -1,22 +1,26 @@
 function inserirContainer() {
     const container = `
         <div id="containerContratados">
-            <div id="formPesquisa">
+            <form id="formPesquisa">
                 <label for="iNome">Nome: </label>
                 <div id="containerInput">
-                    <input type="text" placeholder="Informe um nome" name="iNome" id="iNome">
+                    <input type="text" placeholder="Informe um nome" name="iNome" id="iNome" required minlength="3">
                     <button>Pesquisar</button>
                 </div>
-            </div>
+            </form>
             <div id="resultados">
                 
             </div>
         </div>
     `;
     document.getElementById("content").innerHTML = container;
+    document.querySelector("div#content div#containerContratados form#formPesquisa").addEventListener("submit", (event) => {
+        pesquisa(event);
+    });
 }
 
 function inserirResultados(usuarios) {
+    console.log(usuarios)
     document.querySelector("div#content div#containerContratados div#resultados").innerHTML = '';
     for(let x=0; x<usuarios.length; x++) {
         const cartao = `
@@ -36,6 +40,15 @@ function inserirResultados(usuarios) {
             </div>
         `;
         document.querySelector("div#content div#containerContratados div#resultados").innerHTML += cartao;
+    }
+}
+
+async function pesquisa(event) {
+    event.preventDefault();
+    if(event.target.checkValidity()) {
+        const pesquisa = document.querySelector("div#content div#containerContratados form#formPesquisa input#iNome").value;
+        const usuarios = await perfisPesquisa(pesquisa);
+        inserirResultados(usuarios['content'] ?? []);
     }
 }
 

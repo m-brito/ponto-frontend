@@ -32,6 +32,22 @@ function exibirTabelaPontos(pontosOrganizados, idUsuario) {
     }
 }
 
+function exportToXLSX() {
+    // Obter a tabela HTML
+    const tabela = document.querySelector('div#containerHistorico div#containerTabela table');
+    console.log(tabela)
+    
+    // Converter a tabela em um objeto de workbook do SheetJS
+    const wb = XLSX.utils.table_to_book(tabela);
+    
+    // Criar o arquivo XLSX
+    const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    
+    // Salvar o arquivo
+    const blob = new Blob([wbout], { type: 'application/octet-stream' });
+    saveAs(blob, 'tabela.xlsx');
+}
+
 function montarContainer(colunas, idUsuarioHistorico) {
     let content = document.getElementById('content');
     let colunasNomes = ['Data', 'Dia Semana'];
@@ -55,6 +71,7 @@ function montarContainer(colunas, idUsuarioHistorico) {
                     <input type="date" name="iDataInicial" id="iDataInicial">
                 </div>
                 <p id="pDataFinal">Até dd/mm/aaaa</p>
+                <button id="bttExportar" onclick="exportToXLSX()">Exportar em XLSX</button>
             </div>
             <div id="containerTabela">
                 <table>
